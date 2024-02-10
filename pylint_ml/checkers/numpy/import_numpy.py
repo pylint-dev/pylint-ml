@@ -6,14 +6,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from astroid import nodes
 from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
-
-if TYPE_CHECKING:
-    from pylint.lint import PyLinter
 
 
 class NumpyImportChecker(BaseChecker):
@@ -33,7 +28,3 @@ class NumpyImportChecker(BaseChecker):
         for name, alias in node.names:
             if name == "numpy" and alias != "np":
                 self.add_message("numpy_import", node=node)
-
-
-def register(linter: PyLinter) -> None:
-    linter.register_checker(NumpyImportChecker(linter))

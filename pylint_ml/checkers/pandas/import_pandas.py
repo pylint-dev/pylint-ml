@@ -6,14 +6,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from astroid import nodes
 from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
-
-if TYPE_CHECKING:
-    from pylint.lint import PyLinter
 
 
 class PandasImportChecker(BaseChecker):
@@ -33,7 +28,3 @@ class PandasImportChecker(BaseChecker):
         for name, alias in node.names:
             if name == "pandas" and alias != "pd":
                 self.add_message("pandas_import", node=node)
-
-
-def register(linter: PyLinter) -> None:
-    linter.register_checker(PandasImportChecker(linter))
