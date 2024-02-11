@@ -9,17 +9,17 @@ class TestNumpyImport(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumpyImportChecker
 
     def test_correct_numpy_import(self):
-        import_node = astroid.extract_node(
+        numpy_import_node = astroid.extract_node(
             """
         import numpy as np
         """
         )
 
         with self.assertNoMessages():
-            self.checker.visit_import(import_node)
+            self.checker.visit_import(numpy_import_node)
 
     def test_incorrect_numpy_import(self):
-        import_node = astroid.extract_node(
+        numpy_import_node = astroid.extract_node(
             """
         import numpy as npy
         """
@@ -29,14 +29,14 @@ class TestNumpyImport(pylint.testutils.CheckerTestCase):
             pylint.testutils.MessageTest(
                 msg_id="numpy-import",
                 confidence=HIGH,
-                node=import_node,
+                node=numpy_import_node,
             ),
             ignore_position=True,
         ):
-            self.checker.visit_import(import_node)
+            self.checker.visit_import(numpy_import_node)
 
     def test_incorrect_numpy_import_from(self):
-        importfrom_node = astroid.extract_node(
+        numpy_importfrom_node = astroid.extract_node(
             """
         from numpy import min
         """
@@ -46,8 +46,8 @@ class TestNumpyImport(pylint.testutils.CheckerTestCase):
             pylint.testutils.MessageTest(
                 msg_id="numpy-importfrom",
                 confidence=HIGH,
-                node=importfrom_node,
+                node=numpy_importfrom_node,
             ),
             ignore_position=True,
         ):
-            self.checker.visit_importfrom(importfrom_node)
+            self.checker.visit_importfrom(numpy_importfrom_node)
