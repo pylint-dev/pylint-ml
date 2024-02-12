@@ -1,0 +1,88 @@
+[tool.poetry]
+name = "pylint-ml"
+version = "0.0.1"
+readme = "README.rst"
+description = "A Pylint plugin designed to enhance Pylint's comprehension of machine learning and data science libraries."
+repository = "https://github.com/pylint-dev/pylint-ml"
+authors = ["Peter Hamfelt <peter.hamfelt@gmail.com>"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Information Technology",
+    "Operating System :: Unix",
+    "Topic :: Software Development :: Quality Assurance",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+]
+keywords = ["pylint", "ml", "plugin"]
+packages = [
+    { include = "pylint_ml/" }
+]
+include = [
+  "LICENSE",
+  "*.rst",
+  "*.md"
+]
+exclude = ["**/tests/**", "**/testutils.py", "**/tests.py"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+pylint-plugin-utils = ">=0.8"
+pylint = ">=3.0,<4.0"
+pre-commit = "^3.6.0"
+
+[tool.poetry.group.dev.dependencies]
+tox = "^4.5.1"
+pytest = "^7.3.1"
+pylint = ">=2.13"
+ruff = ">=0.1.1"
+twine = "^4.0.2"
+wheel = "^0.40.0"
+pytest-cov = "^4.0.0"
+
+[tool.poetry.extras]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 120
+
+[tool.pylint.main]
+disable = [
+    "missing-docstring",
+    "too-many-branches", "too-many-return-statements", "too-many-ancestors",
+    "too-few-public-methods",
+    "fixme",
+]
+ignore="tests"
+max-line-length = 120
+
+[tool.ruff]
+line-length = 120
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "W",  # pycodestyle
+    "B",  # bugbear
+    "I",  # isort
+    "RUF", # ruff
+    "UP", # pyupgrade
+]
+ignore = [
+    "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
+]
