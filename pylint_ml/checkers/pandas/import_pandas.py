@@ -15,14 +15,14 @@ from pylint.interfaces import HIGH
 class PandasImportChecker(BaseChecker):
     name = "pandas-import"
     msgs = {
-        "W8001": (
+        "W8101": (
             "Pandas imported with incorrect alias",
             "pandas-import",
             "Pandas should be imported with the alias `pd` to maintain consistency with common practices. "
             "Importing pandas with any other alias can lead to confusion. "
             "Consider using `import pandas as pd` for clarity and adherence to the convention.",
         ),
-        "W8002": (
+        "W8102": (
             "Direct import from Pandas discouraged",
             "pandas-importfrom",
             "Direct imports from Pandas using `from pandas import ...` are discouraged to maintain code clarity and "
