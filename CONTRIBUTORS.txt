@@ -1,6 +1,0 @@
-Maintainers
------------
-- Peter Hamfelt <peter.hamfelt@gmail.com>
-
-Contributors
-------------
