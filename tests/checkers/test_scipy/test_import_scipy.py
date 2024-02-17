@@ -5,7 +5,7 @@ from pylint.interfaces import HIGH
 from pylint_ml.checkers.scipy.import_scipy import ScipyImportChecker
 
 
-class TestTorchImport(pylint.testutils.CheckerTestCase):
+class TestScipyImport(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = ScipyImportChecker
 
     def test_correct_scipy_import(self):
