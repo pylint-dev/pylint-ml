@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.scipy.import_scipy import ScipyImportChecker
+from pylint_ml.checkers.scipy.scipy_import import ScipyImportChecker
 
 
 class TestScipyImport(pylint.testutils.CheckerTestCase):

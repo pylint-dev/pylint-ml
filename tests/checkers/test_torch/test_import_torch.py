@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.torch.import_torch import TorchImportChecker
+from pylint_ml.checkers.torch.torch_import import TorchImportChecker
 
 
 class TestTorchImport(pylint.testutils.CheckerTestCase):
