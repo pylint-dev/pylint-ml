@@ -8,40 +8,37 @@ from pylint_ml.checkers.numpy.numpy_nan_comparison import NumpyNaNComparisonChec
 class TestNumpyNaNComparison(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumpyNaNComparisonChecker
 
-    def test_correct_nan_compare(self):
-        nan_compare_node = astroid.extract_node(
-            """
-        np.isnan(np.nan)
-        """
-        )
-
-        with self.assertNoMessages():
-            self.checker.visit_compare(nan_compare_node)
-
-    def test_incorrect_nan_compare(self):
-        nan_compare_node = astroid.extract_node(
-            """
+    def test_singleton_nan_compare(self):
+        code = """
         a_nan = np.array([0, 1, np.nan])
-        print(a_nan)
-        # [ 0.  1. nan]
 
-        print(a_nan == np.nan)
-        # [False False False]
+        np.nan == a_nan #@
 
-        print(np.isnan(a_nan))
-        # [False False  True]
+        1 == 1 == np.nan #@
 
-        print(a_nan > 0)
-        # [False  True False]
+        1 > 0 > np.nan #@
+
         """
-        )
+        singleton_nan_compare, chained_nan_compare, great_than_nan_compare = astroid.extract_node(code)
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
                 msg_id="numpy-nan-compare",
+                node=singleton_nan_compare,
                 confidence=HIGH,
-                node=nan_compare_node,
+            ),
+            pylint.testutils.MessageTest(
+                msg_id="numpy-nan-compare",
+                node=chained_nan_compare,
+                confidence=HIGH,
+            ),
+            pylint.testutils.MessageTest(
+                msg_id="numpy-nan-compare",
+                node=great_than_nan_compare,
+                confidence=HIGH,
             ),
             ignore_position=True,
         ):
-            self.checker.visit_compare(nan_compare_node)
+            self.checker.visit_compare(singleton_nan_compare)
+            self.checker.visit_compare(chained_nan_compare)
+            self.checker.visit_compare(great_than_nan_compare)

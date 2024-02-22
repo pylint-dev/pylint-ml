@@ -26,25 +26,18 @@ class NumpyNaNComparisonChecker(BaseChecker):
     }
 
     @classmethod
-    def __is_np_nan_call(cls, node):
+    def __is_np_nan_call(cls, node: nodes.Attribute) -> bool:
         """Check if the node represents a call to np.nan."""
-        return (
-            isinstance(node, nodes.Call)
-            and isinstance(node.func, nodes.Attribute)
-            and node.func.attrname in NUMPY_NAN
-            and isinstance(node.func.expr, nodes.Name)
-            and node.func.expr.name == "np"
-        )
+        return node.attrname in NUMPY_NAN and isinstance(node.expr, nodes.Name) and node.expr.name == "np"
 
     @only_required_for_messages("numpy-nan-compare")
     def visit_compare(self, node: nodes.Compare) -> None:
-        # Why am I getting node: node.Call here? Should be nodes.Compare...
-        # Check test case test_numpy/test_numpy_nan_comparison.py
-        if self.__is_np_nan_call(node.left):
+
+        if isinstance(node.left, nodes.Attribute) and self.__is_np_nan_call(node.left):
             self.add_message("numpy-nan-compare", node=node, confidence=HIGH)
             return
 
         for op, comparator in node.ops:
-            if op in COMPARISON_OP and self.__is_np_nan_call(comparator):
+            if op in COMPARISON_OP and isinstance(comparator, nodes.Attribute) and self.__is_np_nan_call(comparator):
                 self.add_message("numpy-nan-compare", node=node, confidence=HIGH)
                 return
