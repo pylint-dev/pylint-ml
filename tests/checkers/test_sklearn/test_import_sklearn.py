@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.sklearn.import_sklearn import SklearnImportChecker
+from pylint_ml.checkers.sklearn.sklearn_import import SklearnImportChecker
 
 
 class TestSklearnImport(pylint.testutils.CheckerTestCase):

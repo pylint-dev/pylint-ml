@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.numpy.import_numpy import NumpyImportChecker
+from pylint_ml.checkers.numpy.numpy_import import NumpyImportChecker
 
 
 class TestNumpyImport(pylint.testutils.CheckerTestCase):

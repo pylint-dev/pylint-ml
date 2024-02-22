@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.tensorflow.import_tensorflow import TensorflowImportChecker
+from pylint_ml.checkers.tensorflow.tensorflow_import import TensorflowImportChecker
 
 
 class TestTensorflowImport(pylint.testutils.CheckerTestCase):

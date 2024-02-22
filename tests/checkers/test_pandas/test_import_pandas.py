@@ -2,7 +2,7 @@ import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.pandas.import_pandas import PandasImportChecker
+from pylint_ml.checkers.pandas.pandas_import import PandasImportChecker
 
 
 class TestPandasImport(pylint.testutils.CheckerTestCase):
