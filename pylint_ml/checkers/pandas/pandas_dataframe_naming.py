@@ -25,8 +25,8 @@ class PandasDataFrameNamingChecker(BaseChecker):
     @only_required_for_messages("pandas-dataframe-naming")
     def visit_assign(self, node: nodes.Assign) -> None:
         if isinstance(node.value, nodes.Call):
-            func_name = getattr(node.value.func, 'attrname', None)
-            module_name = getattr(node.value.func.expr, 'name', None)
+            func_name = getattr(node.value.func, "attrname", None)
+            module_name = getattr(node.value.func.expr, "name", None)
 
             if func_name == "DataFrame" and module_name == "pd":
 
