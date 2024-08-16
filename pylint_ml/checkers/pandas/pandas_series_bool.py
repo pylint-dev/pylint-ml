@@ -11,6 +11,8 @@ from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+# Todo add version deprecated
+
 
 class PandasSeriesBoolChecker(BaseChecker):
     name = "pandas-series-bool"
@@ -26,13 +28,14 @@ class PandasSeriesBoolChecker(BaseChecker):
     def visit_call(self, node: nodes.Call) -> None:
         if isinstance(node.func, nodes.Attribute):
             method_name = getattr(node.func, "attrname", None)
-            module_name = getattr(node.func.expr, "name", None)
 
-            if method_name == "bool" and module_name == "pd":
-                self.add_message("pandas-series-bool", node=node, confidence=HIGH)
+            if method_name == "bool":
+                # Check if the object calling .bool() has a name starting with 'ser'
+                object_name = getattr(node.func.expr, "name", None)
+                if object_name and self._is_valid_series_name(object_name):
+                    self.add_message("pandas-series-bool", node=node, confidence=HIGH)
 
-    def _check_method_usage(self, node):
-        method_name = getattr(node.func, "attrname", None)
-        module_name = getattr(node.func.expr, "name", None)
-        if method_name == "bool" and module_name == "pd":
-            self.add_message("pandas-series-bool", node=node, confidence=HIGH)
+    @staticmethod
+    def _is_valid_series_name(name: str) -> bool:
+        """Check if the Series name starts with 'ser_'."""
+        return name.startswith("ser_")

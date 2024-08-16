@@ -21,7 +21,8 @@ class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
                 msg_id="pandas-dataframe-bool",
                 confidence=HIGH,
                 node=node,
-            )
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(node)
 
