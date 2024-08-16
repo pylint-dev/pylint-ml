@@ -26,12 +26,12 @@ class TestPandasSeriesNamingChecker(pylint.testutils.CheckerTestCase):
             """
         )
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-series-naming",
-                    confidence=HIGH,
-                    node=node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-series-naming",
+                confidence=HIGH,
+                node=node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_assign(node)
 
