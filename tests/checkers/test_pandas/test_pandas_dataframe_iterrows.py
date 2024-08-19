@@ -25,11 +25,11 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
         iterrows_call = node.iter  # This directly points to the `Call` node for `iterrows()`
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-iterrows",
-                    confidence=HIGH,
-                    node=iterrows_call,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-iterrows",
+                confidence=HIGH,
+                node=iterrows_call,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(iterrows_call)
