@@ -24,12 +24,12 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
         attribute_node = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-dataframe-values",
-                    confidence=HIGH,
-                    node=attribute_node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-dataframe-values",
+                confidence=HIGH,
+                node=attribute_node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_attribute(attribute_node)
 
