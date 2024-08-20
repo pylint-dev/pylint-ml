@@ -19,7 +19,7 @@ class PandasEmptyColumnChecker(BaseChecker):
             "Avoid using filler values (0, '') for new empty columns. Use 'np.nan' or 'pd.Series(dtype=...)' instead.",
             "pandas-dataframe-empty-column",
             "Initializing new columns with filler values such as 0 or empty strings can lead to issues with null "
-            "value detection.", 
+            "value detection.",
         ),
     }
 

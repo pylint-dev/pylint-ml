@@ -37,12 +37,12 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
         subscript_node = node.targets[0]
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-dataframe-empty-column",
-                    confidence=HIGH,
-                    node=subscript_node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-dataframe-empty-column",
+                confidence=HIGH,
+                node=subscript_node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_subscript(subscript_node)
 
@@ -58,11 +58,11 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
         subscript_node = node.targets[0]
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-dataframe-empty-column",
-                    confidence=HIGH,
-                    node=subscript_node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-dataframe-empty-column",
+                confidence=HIGH,
+                node=subscript_node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_subscript(subscript_node)
