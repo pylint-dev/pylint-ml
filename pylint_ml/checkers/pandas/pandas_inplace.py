@@ -24,8 +24,17 @@ class PandasInplaceChecker(BaseChecker):
     }
 
     _inplace_methods = {
-        "drop", "fillna", "replace", "rename", "set_index", "reset_index",
-        "sort_values", "sort_index", "drop_duplicates", "update", "clip"
+        "drop",
+        "fillna",
+        "replace",
+        "rename",
+        "set_index",
+        "reset_index",
+        "sort_values",
+        "sort_index",
+        "drop_duplicates",
+        "update",
+        "clip",
     }
 
     @only_required_for_messages("pandas-inplace")

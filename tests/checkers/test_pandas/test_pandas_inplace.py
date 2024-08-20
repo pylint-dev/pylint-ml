@@ -99,6 +99,6 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             df.append({"A": 4, "B": 7}, inplace=True)  # This should not trigger any warnings
             """
         )
-        
+
         with self.assertNoMessages():
             self.checker.visit_call(node)
