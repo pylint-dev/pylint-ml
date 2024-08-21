@@ -10,7 +10,7 @@ class PandasDtypeChecker(BaseChecker):
         "W8117": (
             "Specify 'dtype' when using '%s' for better performance and data integrity.",
             "pandas-dtype-param",
-            "It's recommended to explicitly specify the 'dtype' parameter in pandas read functions."
+            "It's recommended to explicitly specify the 'dtype' parameter in pandas read functions.",
         ),
     }
 
