@@ -32,11 +32,11 @@ class TestPandasDtypeChecker(pylint.testutils.CheckerTestCase):
         dtype_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-dtype-param",
-                    confidence=HIGH,
-                    node=dtype_call,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-dtype-param",
+                confidence=HIGH,
+                node=dtype_call,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(dtype_call)
