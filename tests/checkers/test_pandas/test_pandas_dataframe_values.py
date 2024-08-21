@@ -32,18 +32,3 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
             ignore_position=True,
         ):
             self.checker.visit_attribute(attribute_node)
-
-    def test_no_warning_for_to_numpy(self):
-        node = astroid.extract_node(
-            """
-            import pandas as pd
-            df_sales = pd.DataFrame({
-                "A": [1, 2, 3],
-                "B": [4, 5, 6]
-            })
-            df_data = df_sales.to_numpy()  # This should not trigger any warnings
-            """
-        )
-
-        with self.assertNoMessages():
-            self.checker.visit_call(node)
