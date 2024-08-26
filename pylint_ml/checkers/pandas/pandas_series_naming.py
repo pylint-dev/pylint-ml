@@ -24,7 +24,6 @@ class PandasSeriesNamingChecker(BaseChecker):
 
     @only_required_for_messages("pandas-series-naming")
     def visit_assign(self, node: nodes.Assign) -> None:
-        print(node)
         if isinstance(node.value, nodes.Call):
             func_name = getattr(node.value.func, "attrname", None)
             module_name = getattr(node.value.func.expr, "name", None)
