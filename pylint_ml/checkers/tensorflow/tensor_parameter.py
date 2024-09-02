@@ -16,25 +16,21 @@ class TensorFlowParameterChecker(BaseChecker):
         "W8111": (
             "Ensure that required parameters %s are explicitly specified in TensorFlow method %s.",
             "tensor-parameter",
-            "Explicitly specifying required parameters improves model performance and prevents unintended "
-            "behavior.",
+            "Explicitly specifying required parameters improves model performance and prevents unintended " "behavior.",
         ),
     }
 
     # Define required parameters for specific TensorFlow methods
     REQUIRED_PARAMS = {
         # Model Creation
-        'Sequential': ['layers'],  # Layers must be specified to build a model
-
+        "Sequential": ["layers"],  # Layers must be specified to build a model
         # Model Compilation
-        'compile': ['optimizer', 'loss'],  # Optimizer and loss function are essential for training
-
+        "compile": ["optimizer", "loss"],  # Optimizer and loss function are essential for training
         # Model Training
-        'fit': ['x', 'y'],  # Input data (x) and target data (y) are required to train the model
-
+        "fit": ["x", "y"],  # Input data (x) and target data (y) are required to train the model
         # Layers
-        'Conv2D': ['filters', 'kernel_size'],  # Filters and kernel size define the convolutional layer's structure
-        'Dense': ['units'],  # Number of units (neurons) is crucial for a Dense layer
+        "Conv2D": ["filters", "kernel_size"],  # Filters and kernel size define the convolutional layer's structure
+        "Dense": ["units"],  # Number of units (neurons) is crucial for a Dense layer
     }
 
     @only_required_for_messages("tensor-parameter")
@@ -44,15 +40,16 @@ class TensorFlowParameterChecker(BaseChecker):
             if method_name in self.REQUIRED_PARAMS:
                 required_params = self.REQUIRED_PARAMS[method_name]
                 # Check for explicit parameters
-                missing_params = [param for param in required_params if
-                                  not any(kw.arg == param for kw in node.keywords)]
+                missing_params = [
+                    param for param in required_params if not any(kw.arg == param for kw in node.keywords)
+                ]
 
                 if missing_params:
                     self.add_message(
                         "tensor-parameter",
                         node=node,
                         confidence=HIGH,
-                        args=(', '.join(missing_params), method_name),
+                        args=(", ".join(missing_params), method_name),
                     )
 
     @only_required_for_messages("tensor-parameter")
@@ -72,5 +69,5 @@ class TensorFlowParameterChecker(BaseChecker):
                         "tensor-parameter",
                         node=node,
                         confidence=HIGH,
-                        args=(', '.join(missing_params), method_name),
+                        args=(", ".join(missing_params), method_name),
                     )

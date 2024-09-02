@@ -19,13 +19,13 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         sequential_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="tensor-parameter",
-                    confidence=HIGH,
-                    node=sequential_call,
-                    args=("layers", "Sequential"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="tensor-parameter",
+                confidence=HIGH,
+                node=sequential_call,
+                args=("layers", "Sequential"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(sequential_call)
 
@@ -55,13 +55,13 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         )
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="tensor-parameter",
-                    confidence=HIGH,
-                    node=node,
-                    args=("optimizer, loss", "compile"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="tensor-parameter",
+                confidence=HIGH,
+                node=node,
+                args=("optimizer, loss", "compile"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(node)
 
@@ -92,13 +92,13 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         fit_call = node
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="tensor-parameter",
-                    confidence=HIGH,
-                    node=fit_call,
-                    args=("x, y", "fit"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="tensor-parameter",
+                confidence=HIGH,
+                node=fit_call,
+                args=("x, y", "fit"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(fit_call)
 
@@ -128,13 +128,13 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         conv2d_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="tensor-parameter",
-                    confidence=HIGH,
-                    node=conv2d_call,
-                    args=("filters", "Conv2D"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="tensor-parameter",
+                confidence=HIGH,
+                node=conv2d_call,
+                args=("filters", "Conv2D"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(conv2d_call)
 
@@ -162,13 +162,13 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         dense_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="tensor-parameter",
-                    confidence=HIGH,
-                    node=dense_call,
-                    args=("units", "Dense"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="tensor-parameter",
+                confidence=HIGH,
+                node=dense_call,
+                args=("units", "Dense"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(dense_call)
 
@@ -184,4 +184,3 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
 
         with self.assertNoMessages():
             self.checker.visit_call(dense_call)
-

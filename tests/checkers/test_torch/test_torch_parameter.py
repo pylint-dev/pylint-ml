@@ -19,13 +19,13 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         sgd_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pytorch-parameter",
-                    confidence=HIGH,
-                    node=sgd_call,
-                    args=("lr", "SGD"),  # Specify the expected missing parameters and method name
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pytorch-parameter",
+                confidence=HIGH,
+                node=sgd_call,
+                args=("lr", "SGD"),  # Specify the expected missing parameters and method name
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(sgd_call)
 
@@ -53,13 +53,13 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         adam_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pytorch-parameter",
-                    confidence=HIGH,
-                    node=adam_call,
-                    args=("lr", "Adam"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pytorch-parameter",
+                confidence=HIGH,
+                node=adam_call,
+                args=("lr", "Adam"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(adam_call)
 
@@ -87,13 +87,13 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         conv2d_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pytorch-parameter",
-                    confidence=HIGH,
-                    node=conv2d_call,
-                    args=("out_channels", "Conv2d"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pytorch-parameter",
+                confidence=HIGH,
+                node=conv2d_call,
+                args=("out_channels", "Conv2d"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(conv2d_call)
 
@@ -121,13 +121,13 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         linear_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pytorch-parameter",
-                    confidence=HIGH,
-                    node=linear_call,
-                    args=("out_features", "Linear"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pytorch-parameter",
+                confidence=HIGH,
+                node=linear_call,
+                args=("out_features", "Linear"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(linear_call)
 
@@ -155,13 +155,13 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         lstm_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pytorch-parameter",
-                    confidence=HIGH,
-                    node=lstm_call,
-                    args=("hidden_size", "LSTM"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pytorch-parameter",
+                confidence=HIGH,
+                node=lstm_call,
+                args=("hidden_size", "LSTM"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(lstm_call)
 
