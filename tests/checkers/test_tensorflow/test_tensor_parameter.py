@@ -70,7 +70,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import tensorflow as tf
             model = tf.keras.models.Sequential()
-            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])  # Should not trigger
+            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])  # No trigger
             """
         )
 
