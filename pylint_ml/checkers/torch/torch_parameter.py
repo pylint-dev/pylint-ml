@@ -16,7 +16,7 @@ class PyTorchParameterChecker(BaseChecker):
         "W8111": (
             "Ensure that required parameters %s are explicitly specified in PyTorch method %s.",
             "pytorch-parameter",
-            "Explicitly specifying required parameters improves model performance and prevents unintended " "behavior.",
+            "Explicitly specifying required parameters improves model performance and prevents unintended behavior.",
         ),
     }
 
@@ -34,19 +34,27 @@ class PyTorchParameterChecker(BaseChecker):
 
     @only_required_for_messages("pytorch-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if isinstance(node.func, nodes.Attribute):
-            method_name = node.func.attrname
-            if method_name in self.REQUIRED_PARAMS:
-                required_params = self.REQUIRED_PARAMS[method_name]
-                # Check for explicit parameters
-                missing_params = [
-                    param for param in required_params if not any(kw.arg == param for kw in node.keywords)
-                ]
+        method_name = self._get_method_name(node)
+        if method_name in self.REQUIRED_PARAMS:
+            provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
+            # Collect all missing parameters
+            missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
+            if missing_params:
+                self.add_message(
+                    "pytorch-parameter",
+                    node=node,
+                    confidence=HIGH,
+                    args=(", ".join(missing_params), method_name),
+                )
 
-                if missing_params:
-                    self.add_message(
-                        "pytorch-parameter",
-                        node=node,
-                        confidence=HIGH,
-                        args=(", ".join(missing_params), method_name),
-                    )
+    @staticmethod
+    def _get_method_name(node: nodes.Call) -> str:
+        """Extracts the method name from a Call node, including handling chained calls."""
+        func = node.func
+        while isinstance(func, nodes.Attribute):
+            func = func.expr
+        return (
+            node.func.attrname
+            if isinstance(node.func, nodes.Attribute)
+            else func.name if isinstance(func, nodes.Name) else ""
+        )
