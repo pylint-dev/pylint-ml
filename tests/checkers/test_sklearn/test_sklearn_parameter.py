@@ -19,13 +19,13 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         forest_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="sklearn-parameter",
-                    confidence=HIGH,
-                    node=forest_call,
-                    args=("n_estimators", "RandomForestClassifier"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="sklearn-parameter",
+                confidence=HIGH,
+                node=forest_call,
+                args=("n_estimators", "RandomForestClassifier"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(forest_call)
 
@@ -53,13 +53,13 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         svc_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="sklearn-parameter",
-                    confidence=HIGH,
-                    node=svc_call,
-                    args=("C, kernel", "SVC"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="sklearn-parameter",
+                confidence=HIGH,
+                node=svc_call,
+                args=("C, kernel", "SVC"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(svc_call)
 
@@ -86,15 +86,14 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
 
         kmeans_call = node.value
 
-
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="sklearn-parameter",
-                    confidence=HIGH,
-                    node=kmeans_call,
-                    args=("n_clusters", "KMeans"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="sklearn-parameter",
+                confidence=HIGH,
+                node=kmeans_call,
+                args=("n_clusters", "KMeans"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(kmeans_call)
 
