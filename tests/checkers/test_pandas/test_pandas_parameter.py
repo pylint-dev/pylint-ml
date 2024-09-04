@@ -207,7 +207,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1')  # This should not trigger any warnings
+            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1')  # Should not trigger any warning
             """
         )
 
