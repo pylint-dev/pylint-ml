@@ -25,8 +25,9 @@ class ScipyImportChecker(BaseChecker):
         ),
     }
 
-    @only_required_for_messages("scipy-import")
+    @only_required_for_messages("scipy-import", "scipy-wildcard-import")
     def visit_import(self, node: nodes.Import) -> None:
-        for name, _ in node.names:
+        for name, _alias in node.names:
             if name == "scipy":
+                # Flag direct or aliased imports of scipy
                 self.add_message("scipy-import", node=node, confidence=HIGH)
