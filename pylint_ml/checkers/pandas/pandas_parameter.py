@@ -23,53 +23,43 @@ class PandasParameterChecker(BaseChecker):
     # Define required parameters for specific Pandas classes and methods
     REQUIRED_PARAMS = {
         # DataFrame creation
-        'DataFrame': ['data'],  # The primary input data for DataFrame creation
-
+        "DataFrame": ["data"],  # The primary input data for DataFrame creation
         # Concatenation
-        'concat': ['objs'],  # The list or dictionary of DataFrames/Series to concatenate
-
+        "concat": ["objs"],  # The list or dictionary of DataFrames/Series to concatenate
         # DataFrame I/O (Input/Output)
-        'read_csv': ['filepath_or_buffer', 'dtype'],  # Path to CSV file or file-like object; column data types
-        'read_excel': ['io', 'dtype'],  # Path to Excel file or file-like object; column data types
-        'read_table': ['filepath_or_buffer', 'dtype'],  # Path to delimited text-file or file object; column data types
-        'to_csv': ['path_or_buf'],  # File path or buffer to write the DataFrame to
-        'to_excel': ['excel_writer'],  # File path or ExcelWriter object to write the data to
-
+        "read_csv": ["filepath_or_buffer", "dtype"],  # Path to CSV file or file-like object; column data types
+        "read_excel": ["io", "dtype"],  # Path to Excel file or file-like object; column data types
+        "read_table": ["filepath_or_buffer", "dtype"],  # Path to delimited text-file or file object; column data types
+        "to_csv": ["path_or_buf"],  # File path or buffer to write the DataFrame to
+        "to_excel": ["excel_writer"],  # File path or ExcelWriter object to write the data to
         # Merging and Joining
-        'merge': ['right', 'how', 'on', 'validate'],  # The DataFrame or Serie to merge with
-        'join': ['other'],  # The DataFrame or Series to join
-
+        "merge": ["right", "how", "on", "validate"],  # The DataFrame or Serie to merge with
+        "join": ["other"],  # The DataFrame or Series to join
         # DataFrame Operations
-        'pivot_table': ['index'],  # The column to pivot on (values and columns have defaults)
-        'groupby': ['by'],  # The key or list of keys to group by
-        'resample': ['rule'],  # The frequency rule to resample by
-
+        "pivot_table": ["index"],  # The column to pivot on (values and columns have defaults)
+        "groupby": ["by"],  # The key or list of keys to group by
+        "resample": ["rule"],  # The frequency rule to resample by
         # Data Cleaning and Transformation
-        'fillna': ['value'],  # Value to use to fill NA/NaN values
-        'drop': ['labels'],  # Labels to drop
-        'drop_duplicates': ['subset'],  # Subset of columns to consider when dropping duplicates
-        'replace': ['to_replace'],  # Values to replace
-
+        "fillna": ["value"],  # Value to use to fill NA/NaN values
+        "drop": ["labels"],  # Labels to drop
+        "drop_duplicates": ["subset"],  # Subset of columns to consider when dropping duplicates
+        "replace": ["to_replace"],  # Values to replace
         # Plotting
-        'plot': ['x'],  # x-values or index for plotting
-        'hist': ['column'],  # Column to plot the histogram for
-        'boxplot': ['column'],  # Column(s) to plot boxplot for
-
+        "plot": ["x"],  # x-values or index for plotting
+        "hist": ["column"],  # Column to plot the histogram for
+        "boxplot": ["column"],  # Column(s) to plot boxplot for
         # DataFrame Sorting
-        'sort_values': ['by'],  # Column(s) to sort by
-        'sort_index': ['axis'],  # Axis to sort along (index=0, columns=1)
-
+        "sort_values": ["by"],  # Column(s) to sort by
+        "sort_index": ["axis"],  # Axis to sort along (index=0, columns=1)
         # Statistical Functions
-        'corr': ['method'],  # Method to use for correlation ('pearson', 'kendall', 'spearman')
-        'describe': [],  # No required parameters, but additional ones could be specified
-
+        "corr": ["method"],  # Method to use for correlation ('pearson', 'kendall', 'spearman')
+        "describe": [],  # No required parameters, but additional ones could be specified
         # Windowing/Resampling Functions
-        'rolling': ['window'],  # Size of the moving window
-        'ewm': ['span'],  # Span for exponentially weighted calculations
-
+        "rolling": ["window"],  # Size of the moving window
+        "ewm": ["span"],  # Span for exponentially weighted calculations
         # Miscellaneous Functions
-        'apply': ['func'],  # Function to apply to the data
-        'agg': ['func'],  # Function or list of functions for aggregation
+        "apply": ["func"],  # Function to apply to the data
+        "agg": ["func"],  # Function or list of functions for aggregation
     }
 
     @only_required_for_messages("pandas-parameter")

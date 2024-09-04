@@ -18,13 +18,13 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         minimize_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=minimize_call,
-                    args=("fun", "minimize"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=minimize_call,
+                args=("fun", "minimize"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(minimize_call)
 
@@ -38,13 +38,13 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         curve_fit_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=curve_fit_call,
-                    args=("f", "curve_fit"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=curve_fit_call,
+                args=("f", "curve_fit"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(curve_fit_call)
 
@@ -58,13 +58,13 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         quad_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=quad_call,
-                    args=("func", "quad"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=quad_call,
+                args=("func", "quad"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(quad_call)
 
@@ -78,13 +78,13 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         solve_ivp_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=solve_ivp_call,
-                    args=("y0", "solve_ivp"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=solve_ivp_call,
+                args=("y0", "solve_ivp"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(solve_ivp_call)
 
@@ -98,13 +98,13 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         ttest_ind_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=ttest_ind_call,
-                    args=("b", "ttest_ind"),  # The missing parameter and method name, as formatted by the checker
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=ttest_ind_call,
+                args=("b", "ttest_ind"),  # The missing parameter and method name, as formatted by the checker
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(ttest_ind_call)
 
@@ -118,12 +118,12 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         euclidean_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="scipy-parameter",
-                    confidence=HIGH,
-                    node=euclidean_call,
-                    args=("v", "euclidean"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=euclidean_call,
+                args=("v", "euclidean"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(euclidean_call)

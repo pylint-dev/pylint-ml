@@ -19,13 +19,13 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         array_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="numpy-parameter",
-                    confidence=HIGH,
-                    node=array_call,
-                    args=("object", "array"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="numpy-parameter",
+                confidence=HIGH,
+                node=array_call,
+                args=("object", "array"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(array_call)
 
@@ -40,13 +40,13 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         zeros_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="numpy-parameter",
-                    confidence=HIGH,
-                    node=zeros_call,
-                    args=("shape", "zeros"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="numpy-parameter",
+                confidence=HIGH,
+                node=zeros_call,
+                args=("shape", "zeros"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(zeros_call)
 
@@ -61,13 +61,13 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         rand_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="numpy-parameter",
-                    confidence=HIGH,
-                    node=rand_call,
-                    args=("d0", "random.rand"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="numpy-parameter",
+                confidence=HIGH,
+                node=rand_call,
+                args=("d0", "random.rand"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(rand_call)
 
@@ -82,13 +82,13 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         dot_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="numpy-parameter",
-                    confidence=HIGH,
-                    node=dot_call,
-                    args=("b", "dot"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="numpy-parameter",
+                confidence=HIGH,
+                node=dot_call,
+                args=("b", "dot"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(dot_call)
 
@@ -103,12 +103,12 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         percentile_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="numpy-parameter",
-                    confidence=HIGH,
-                    node=percentile_call,
-                    args=("q", "percentile"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="numpy-parameter",
+                confidence=HIGH,
+                node=percentile_call,
+                args=("q", "percentile"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(percentile_call)

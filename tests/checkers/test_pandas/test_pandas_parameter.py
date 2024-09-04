@@ -19,13 +19,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         dataframe_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=dataframe_call,
-                    args=("data", "DataFrame"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=dataframe_call,
+                args=("data", "DataFrame"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(dataframe_call)
 
@@ -42,13 +42,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         merge_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=merge_call,
-                    args=("right, how, on, validate", "merge"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=merge_call,
+                args=("right, how, on, validate", "merge"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(merge_call)
 
@@ -63,13 +63,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         read_csv_call = node.value
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=read_csv_call,
-                    args=("filepath_or_buffer, dtype", "read_csv"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=read_csv_call,
+                args=("filepath_or_buffer, dtype", "read_csv"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(read_csv_call)
 
@@ -85,13 +85,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         to_csv_call = node
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=to_csv_call,
-                    args=("path_or_buf", "to_csv"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=to_csv_call,
+                args=("path_or_buf", "to_csv"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(to_csv_call)
 
@@ -107,13 +107,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         groupby_call = node
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=groupby_call,
-                    args=("by", "groupby"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=groupby_call,
+                args=("by", "groupby"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(groupby_call)
 
@@ -129,13 +129,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         fillna_call = node
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=fillna_call,
-                    args=("value", "fillna"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=fillna_call,
+                args=("value", "fillna"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(fillna_call)
 
@@ -151,13 +151,13 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         sort_values_call = node
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-parameter",
-                    confidence=HIGH,
-                    node=sort_values_call,
-                    args=("by", "sort_values"),
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-parameter",
+                confidence=HIGH,
+                node=sort_values_call,
+                args=("by", "sort_values"),
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_call(sort_values_call)
 
@@ -176,7 +176,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
                 msg_id="pandas-parameter",
                 confidence=HIGH,
                 node=merge_call,
-                args=('validate', 'merge'),
+                args=("validate", "merge"),
             ),
             ignore_position=True,
         ):
@@ -194,10 +194,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
-                msg_id="pandas-parameter",
-                confidence=HIGH,
-                node=merge_call,
-                args=('how, on, validate', 'merge')
+                msg_id="pandas-parameter", confidence=HIGH, node=merge_call, args=("how, on, validate", "merge")
             ),
             ignore_position=True,
         ):
