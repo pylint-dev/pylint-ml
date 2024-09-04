@@ -1,0 +1,129 @@
+import astroid
+import pylint.testutils
+from pylint.interfaces import HIGH
+
+from pylint_ml.checkers.scipy.scipy_parameter import ScipyParameterChecker
+
+
+class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
+    CHECKER_CLASS = ScipyParameterChecker
+
+    def test_minimize_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.optimize import minimize
+            result = minimize(x0=[1, 2, 3])  # [scipy-parameter]
+            """
+        )
+        minimize_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=minimize_call,
+                args=("fun", "minimize"),
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(minimize_call)
+
+    def test_curve_fit_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.optimize import curve_fit
+            params = curve_fit(xdata=[1, 2, 3], ydata=[4, 5, 6])  # [scipy-parameter]
+            """
+        )
+        curve_fit_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=curve_fit_call,
+                args=("f", "curve_fit"),
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(curve_fit_call)
+
+    def test_quad_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.integrate import quad
+            result = quad(a=0, b=1)  # [scipy-parameter]
+            """
+        )
+        quad_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=quad_call,
+                args=("func", "quad"),
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(quad_call)
+
+    def test_solve_ivp_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.integrate import solve_ivp
+            result = solve_ivp(fun=None, t_span=[0, 1])  # [scipy-parameter]
+            """
+        )
+        solve_ivp_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=solve_ivp_call,
+                args=("y0", "solve_ivp"),
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(solve_ivp_call)
+
+    def test_ttest_ind_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.stats import ttest_ind
+            result = ttest_ind(a=[1, 2])  # [scipy-parameter]
+            """
+        )
+        ttest_ind_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=ttest_ind_call,
+                args=("b", "ttest_ind"),  # The missing parameter and method name, as formatted by the checker
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(ttest_ind_call)
+
+    def test_euclidean_params(self):
+        node = astroid.extract_node(
+            """
+            from scipy.spatial.distance import euclidean
+            dist = euclidean(u=[1, 2, 3])  # [scipy-parameter]
+            """
+        )
+        euclidean_call = node.value
+
+        with self.assertAddsMessages(
+            pylint.testutils.MessageTest(
+                msg_id="scipy-parameter",
+                confidence=HIGH,
+                node=euclidean_call,
+                args=("v", "euclidean"),
+            ),
+            ignore_position=True,
+        ):
+            self.checker.visit_call(euclidean_call)
