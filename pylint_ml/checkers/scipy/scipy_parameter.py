@@ -23,24 +23,21 @@ class ScipyParameterChecker(BaseChecker):
     # Define required parameters for specific Scipy classes and methods
     REQUIRED_PARAMS = {
         # scipy.optimize
-        'minimize': ['fun', 'x0'],
-        'curve_fit': ['f', 'xdata', 'ydata'],
-        'root': ['fun', 'x0'],
-
+        "minimize": ["fun", "x0"],
+        "curve_fit": ["f", "xdata", "ydata"],
+        "root": ["fun", "x0"],
         # scipy.integrate
-        'quad': ['func', 'a', 'b'],
-        'dblquad': ['func', 'a', 'b', 'gfun', 'hfun'],
-        'solve_ivp': ['fun', 't_span', 'y0'],
-
+        "quad": ["func", "a", "b"],
+        "dblquad": ["func", "a", "b", "gfun", "hfun"],
+        "solve_ivp": ["fun", "t_span", "y0"],
         # scipy.stats
-        'ttest_ind': ['a', 'b'],
-        'ttest_rel': ['a', 'b'],
-        'norm.pdf': ['x'],
-
+        "ttest_ind": ["a", "b"],
+        "ttest_rel": ["a", "b"],
+        "norm.pdf": ["x"],
         # scipy.spatial
-        'distance.euclidean': ['u', 'v'],  # Full chain
-        'euclidean': ['u', 'v'],  # Direct import of euclidean
-        'KDTree.query': ['x'],
+        "distance.euclidean": ["u", "v"],  # Full chain
+        "euclidean": ["u", "v"],  # Direct import of euclidean
+        "KDTree.query": ["x"],
     }
 
     @only_required_for_messages("scipy-parameter")
@@ -75,4 +72,4 @@ class ScipyParameterChecker(BaseChecker):
         if isinstance(func, nodes.Name):
             method_chain.insert(0, func.name)
 
-        return '.'.join(method_chain)
+        return ".".join(method_chain)

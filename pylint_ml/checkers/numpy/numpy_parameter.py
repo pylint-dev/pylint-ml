@@ -22,56 +22,51 @@ class NumPyParameterChecker(BaseChecker):
 
     REQUIRED_PARAMS = {
         # Array Creation
-        'array': ['object'],
-        'zeros': ['shape'],
-        'ones': ['shape'],
-        'full': ['shape', 'fill_value'],
-        'empty': ['shape'],
-        'arange': ['start'],
-        'linspace': ['start', 'stop'],
-        'logspace': ['start', 'stop'],
-        'eye': ['N'],
-        'identity': ['n'],
-
+        "array": ["object"],
+        "zeros": ["shape"],
+        "ones": ["shape"],
+        "full": ["shape", "fill_value"],
+        "empty": ["shape"],
+        "arange": ["start"],
+        "linspace": ["start", "stop"],
+        "logspace": ["start", "stop"],
+        "eye": ["N"],
+        "identity": ["n"],
         # Random Sampling
-        'random.rand': ['d0'],
-        'random.randn': ['d0'],
-        'random.randint': ['low', 'high'],
-        'random.choice': ['a'],
-        'random.uniform': ['low', 'high'],
-        'random.normal': ['loc', 'scale'],
-
+        "random.rand": ["d0"],
+        "random.randn": ["d0"],
+        "random.randint": ["low", "high"],
+        "random.choice": ["a"],
+        "random.uniform": ["low", "high"],
+        "random.normal": ["loc", "scale"],
         # Mathematical Functions
-        'sum': ['a'],
-        'mean': ['a'],
-        'median': ['a'],
-        'std': ['a'],
-        'var': ['a'],
-        'prod': ['a'],
-        'min': ['a'],
-        'max': ['a'],
-        'ptp': ['a'],
-
+        "sum": ["a"],
+        "mean": ["a"],
+        "median": ["a"],
+        "std": ["a"],
+        "var": ["a"],
+        "prod": ["a"],
+        "min": ["a"],
+        "max": ["a"],
+        "ptp": ["a"],
         # Array Manipulation
-        'reshape': ['newshape'],
-        'transpose': [],
-        'concatenate': ['arrays'],
-        'stack': ['arrays'],
-        'vstack': ['arrays'],
-        'hstack': ['arrays'],
-
+        "reshape": ["newshape"],
+        "transpose": [],
+        "concatenate": ["arrays"],
+        "stack": ["arrays"],
+        "vstack": ["arrays"],
+        "hstack": ["arrays"],
         # Linear Algebra
-        'dot': ['a', 'b'],
-        'matmul': ['a', 'b'],
-        'linalg.inv': ['a'],
-        'linalg.eig': ['a'],
-        'linalg.solve': ['a', 'b'],
-
+        "dot": ["a", "b"],
+        "matmul": ["a", "b"],
+        "linalg.inv": ["a"],
+        "linalg.eig": ["a"],
+        "linalg.solve": ["a", "b"],
         # Statistical Functions
-        'percentile': ['a', 'q'],
-        'quantile': ['a', 'q'],
-        'corrcoef': ['x'],
-        'cov': ['m'],
+        "percentile": ["a", "q"],
+        "quantile": ["a", "q"],
+        "corrcoef": ["x"],
+        "cov": ["m"],
     }
 
     @only_required_for_messages("numpy-parameter")
@@ -105,6 +100,5 @@ class NumPyParameterChecker(BaseChecker):
 
         # Check if the root of the chain is "np" (as NumPy functions are expected to use np. prefix)
         if isinstance(func, nodes.Name) and func.name == "np":
-            return '.'.join(method_chain)
+            return ".".join(method_chain)
         return ""
-
