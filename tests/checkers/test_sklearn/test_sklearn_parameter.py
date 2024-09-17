@@ -12,7 +12,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.ensemble import RandomForestClassifier
-            clf = RandomForestClassifier()  # [sklearn-parameter]
+            clf = RandomForestClassifier()  #@
             """
         )
 
@@ -33,7 +33,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.ensemble import RandomForestClassifier
-            clf = RandomForestClassifier(n_estimators=100)  # Should not trigger
+            clf = RandomForestClassifier(n_estimators=100)  #@
             """
         )
 
@@ -46,7 +46,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.svm import SVC
-            clf = SVC()  # [sklearn-parameter]
+            clf = SVC()  #@
             """
         )
 
@@ -67,7 +67,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.svm import SVC
-            clf = SVC(C=1.0, kernel='linear')  # Should not trigger
+            clf = SVC(C=1.0, kernel='linear')  #@
             """
         )
 
@@ -80,7 +80,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.cluster import KMeans
-            kmeans = KMeans()  # [sklearn-parameter]
+            kmeans = KMeans()  #@
             """
         )
 
@@ -101,7 +101,7 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from sklearn.cluster import KMeans
-            kmeans = KMeans(n_clusters=8)  # Should not trigger
+            kmeans = KMeans(n_clusters=8)  #@
             """
         )
 

@@ -16,7 +16,7 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
                 "Product": ["A", "B", "C"],
                 "Sales": [100, 200, 300]
             })
-            for index, row in df_sales.iterrows():  # [pandas-iterrows]
+            for index, row in df_sales.iterrows():  #@
                 print(row["Product"], row["Sales"])
             """
         )

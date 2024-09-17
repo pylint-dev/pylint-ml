@@ -13,7 +13,7 @@ class TestPandasColumnSelectionChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_sales = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
-            value = df_sales.A  # [pandas-column-selection]
+            value = df_sales.A  #@
             """
         )
 

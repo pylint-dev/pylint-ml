@@ -16,7 +16,7 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
             })
-            data = df_sales.values  # [pandas-dataframe-values]
+            data = df_sales.values  #@
             """
         )
 

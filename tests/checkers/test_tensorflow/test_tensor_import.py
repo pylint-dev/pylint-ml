@@ -11,7 +11,7 @@ class TestTensorflowImport(pylint.testutils.CheckerTestCase):
     def test_correct_tensorflow_import(self):
         tensorflow_import_node = astroid.extract_node(
             """
-        import tensorflow as tf
+        import tensorflow as tf #@
         """
         )
 
@@ -21,7 +21,7 @@ class TestTensorflowImport(pylint.testutils.CheckerTestCase):
     def test_incorrect_tensorflow_import(self):
         tensorflow_import_node = astroid.extract_node(
             """
-        import tensorflow as tflow
+        import tensorflow as tflow  #@
         """
         )
 
@@ -38,7 +38,7 @@ class TestTensorflowImport(pylint.testutils.CheckerTestCase):
     def test_incorrect_tensorflow_import_from(self):
         tensorflow_importfrom_node = astroid.extract_node(
             """
-        from tensorflow import math
+        from tensorflow import math #@
         """
         )
 

@@ -12,7 +12,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.optimize import minimize
-            result = minimize(x0=[1, 2, 3])  # [scipy-parameter]
+            result = minimize(x0=[1, 2, 3])  #@
             """
         )
         minimize_call = node.value
@@ -32,7 +32,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.optimize import curve_fit
-            params = curve_fit(xdata=[1, 2, 3], ydata=[4, 5, 6])  # [scipy-parameter]
+            params = curve_fit(xdata=[1, 2, 3], ydata=[4, 5, 6])  #@
             """
         )
         curve_fit_call = node.value
@@ -52,7 +52,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.integrate import quad
-            result = quad(a=0, b=1)  # [scipy-parameter]
+            result = quad(a=0, b=1)  #@
             """
         )
         quad_call = node.value
@@ -72,7 +72,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.integrate import solve_ivp
-            result = solve_ivp(fun=None, t_span=[0, 1])  # [scipy-parameter]
+            result = solve_ivp(fun=None, t_span=[0, 1])  #@
             """
         )
         solve_ivp_call = node.value
@@ -92,7 +92,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.stats import ttest_ind
-            result = ttest_ind(a=[1, 2])  # [scipy-parameter]
+            result = ttest_ind(a=[1, 2])  #@
             """
         )
         ttest_ind_call = node.value
@@ -112,7 +112,7 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             from scipy.spatial.distance import euclidean
-            dist = euclidean(u=[1, 2, 3])  # [scipy-parameter]
+            dist = euclidean(u=[1, 2, 3])  #@
             """
         )
         euclidean_call = node.value

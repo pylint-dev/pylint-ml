@@ -12,7 +12,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_yoda = pd.DataFrame()  # [pandas-parameter]
+            df_yoda = pd.DataFrame()  #@
             """
         )
 
@@ -35,7 +35,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             import pandas as pd
             df_yoda1 = pd.DataFrame({'A': [1, 2]})
             df_yoda2 = pd.DataFrame({'A': [3, 4]})
-            df_yoda_merged = df_yoda1.merge(df_yoda2)  # [pandas-parameter]
+            df_yoda_merged = df_yoda1.merge(df_yoda2)  #@
             """
         )
 
@@ -56,7 +56,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_yoda = pd.read_csv()  # [pandas-parameter]
+            df_yoda = pd.read_csv()  #@
             """
         )
 
@@ -78,7 +78,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.to_csv()  # [pandas-parameter]
+            df_yoda.to_csv()  #@
             """
         )
 
@@ -100,7 +100,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.groupby()  # [pandas-parameter]
+            df_yoda.groupby()  #@
             """
         )
 
@@ -122,7 +122,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_yoda = pd.DataFrame({'A': [1, None]})
-            df_yoda.fillna()  # [pandas-parameter]
+            df_yoda.fillna()  #@
             """
         )
 
@@ -144,7 +144,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.sort_values()  # [pandas-parameter]
+            df_yoda.sort_values()  #@
             """
         )
 
@@ -165,7 +165,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_3 = df_1.merge(right=df_2, how='inner', on='col1')  # [pandas-dataframe-merge]
+            df_3 = df_1.merge(right=df_2, how='inner', on='col1')  #@
             """
         )
 
@@ -186,7 +186,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            merged_df = df_1.merge(right=df_2)  # [pandas-dataframe-merge]
+            merged_df = df_1.merge(right=df_2)  #@
             """
         )
 
@@ -204,7 +204,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1')  # Should not trigger any warning
+            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1')  #@
             """
         )
 

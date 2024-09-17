@@ -12,7 +12,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import numpy as np
-            arr = np.array()  # [numpy-parameter]
+            arr = np.array()  #@
             """
         )
 
@@ -33,7 +33,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import numpy as np
-            arr = np.zeros()  # [numpy-parameter]
+            arr = np.zeros()  #@
             """
         )
 
@@ -54,7 +54,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import numpy as np
-            arr = np.random.rand()  # [numpy-parameter]
+            arr = np.random.rand()  #@
             """
         )
 
@@ -75,7 +75,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import numpy as np
-            arr = np.dot(a=[1, 2, 3])  # [numpy-parameter]
+            arr = np.dot(a=[1, 2, 3])  #@
             """
         )
 
@@ -96,7 +96,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import numpy as np
-            result = np.percentile(a=[1, 2, 3])  # [numpy-parameter]
+            result = np.percentile(a=[1, 2, 3])  #@
             """
         )
 

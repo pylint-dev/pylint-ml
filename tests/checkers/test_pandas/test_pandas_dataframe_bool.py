@@ -13,7 +13,7 @@ class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_customers = pd.DataFrame(data)
-            df_customers.bool()  # [pandas-dataframe-bool]
+            df_customers.bool() #@
             """
         )
         with self.assertAddsMessages(
@@ -31,7 +31,7 @@ class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_customers = pd.DataFrame(data)
-            df_customers.sum()  # This should pass without warnings
+            df_customers.sum()  #@
             """
         )
         with self.assertNoMessages():

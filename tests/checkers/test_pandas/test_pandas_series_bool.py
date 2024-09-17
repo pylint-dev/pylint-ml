@@ -13,7 +13,7 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             series = pd.Series(data)
-            series.bool()  # [pandas-series-bool]
+            series.bool()  #@
             """
         )
         with self.assertAddsMessages(
@@ -21,7 +21,8 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
                 msg_id="pandas-series-bool",
                 confidence=HIGH,
                 node=node,
-            )
+            ),
+            ignore_position=True
         ):
             self.checker.visit_call(node)
 
@@ -30,7 +31,7 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             series = pd.Series(data)
-            series.sum()  # This should pass without warnings
+            series.sum()  #@
             """
         )
         with self.assertNoMessages():

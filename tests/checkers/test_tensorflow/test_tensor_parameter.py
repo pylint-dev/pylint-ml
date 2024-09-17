@@ -12,7 +12,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import tensorflow as tf
-            model = tf.keras.models.Sequential()  # [tensor-parameter]
+            model = tf.keras.models.Sequential()  #@
             """
         )
 
@@ -50,7 +50,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import tensorflow as tf
             model = tf.keras.models.Sequential()
-            model.compile()  # [tensor-parameter]
+            model.compile()  #@
             """
         )
 
@@ -70,7 +70,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             """
             import tensorflow as tf
             model = tf.keras.models.Sequential()
-            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])  # No trigger
+            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])  #@
             """
         )
 
@@ -85,7 +85,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             import tensorflow as tf
             model = tf.keras.models.Sequential()
             model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
-            model.fit(epochs=10)  # [tensor-parameter]
+            model.fit(epochs=10)  #@
             """
         )
 
@@ -108,7 +108,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             import tensorflow as tf
             model = tf.keras.models.Sequential()
             model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
-            model.fit(x=train_data, y=train_labels, epochs=10)  # Should not trigger
+            model.fit(x=train_data, y=train_labels, epochs=10)  #@
             """
         )
 
@@ -121,7 +121,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import tensorflow as tf
-            layer = tf.keras.layers.Conv2D(kernel_size=(3, 3))  # [tensor-parameter]
+            layer = tf.keras.layers.Conv2D(kernel_size=(3, 3))  #@
             """
         )
 
@@ -142,7 +142,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import tensorflow as tf
-            layer = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3))  # Should not trigger
+            layer = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3))  #@
             """
         )
 
@@ -155,7 +155,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import tensorflow as tf
-            layer = tf.keras.layers.Dense()  # [tensor-parameter]
+            layer = tf.keras.layers.Dense()  #@
             """
         )
 
@@ -176,7 +176,7 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import tensorflow as tf
-            layer = tf.keras.layers.Dense(units=64)  # Should not trigger
+            layer = tf.keras.layers.Dense(units=64)  #@
             """
         )
 
