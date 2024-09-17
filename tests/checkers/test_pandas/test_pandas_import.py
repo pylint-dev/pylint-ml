@@ -26,12 +26,12 @@ class TestPandasImport(pylint.testutils.CheckerTestCase):
         )
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-import",
-                    confidence=HIGH,
-                    node=pandas_import_node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-import",
+                confidence=HIGH,
+                node=pandas_import_node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_import(pandas_import_node)
 
@@ -43,11 +43,11 @@ class TestPandasImport(pylint.testutils.CheckerTestCase):
         )
 
         with self.assertAddsMessages(
-                pylint.testutils.MessageTest(
-                    msg_id="pandas-importfrom",
-                    confidence=HIGH,
-                    node=pandas_importfrom_node,
-                ),
-                ignore_position=True,
+            pylint.testutils.MessageTest(
+                msg_id="pandas-importfrom",
+                confidence=HIGH,
+                node=pandas_importfrom_node,
+            ),
+            ignore_position=True,
         ):
             self.checker.visit_importfrom(pandas_importfrom_node)

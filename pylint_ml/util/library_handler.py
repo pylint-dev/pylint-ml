@@ -11,7 +11,10 @@ class LibraryHandler(BaseChecker):
         for name, alias in node.names:
             self.imports[alias or name] = name
 
-    def visit_importfrom(self, node, ):
+    def visit_importfrom(
+        self,
+        node,
+    ):
         # TODO Update method to handle either:
         #   1. Check of specific method-name imported?
         #   2. Store all method names importfrom libname?

@@ -9,12 +9,14 @@ class TestNumpyNaNComparison(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumpyNaNComparisonChecker
 
     def test_singleton_nan_compare(self):
-        singleton_node, chained_node, great_than_node = astroid.extract_node("""
+        singleton_node, chained_node, great_than_node = astroid.extract_node(
+            """
         a_nan = np.array([0, 1, np.nan])
         np.nan == a_nan #@
         1 == 1 == np.nan #@
         1 > 0 > np.nan #@
-        """)
+        """
+        )
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(

@@ -29,7 +29,7 @@ class NumpyDotChecker(LibraryHandler):
 
     @only_required_for_messages("numpy-dot-usage")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported('numpy'):
+        if not self.is_library_imported("numpy"):
             return
 
         # Check if the function being called is np.dot

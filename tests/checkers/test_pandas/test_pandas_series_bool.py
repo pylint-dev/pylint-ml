@@ -22,7 +22,7 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
                 confidence=HIGH,
                 node=node,
             ),
-            ignore_position=True
+            ignore_position=True,
         ):
             self.checker.visit_call(node)
 
