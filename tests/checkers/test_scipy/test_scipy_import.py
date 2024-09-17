@@ -11,7 +11,7 @@ class TestScipyImport(pylint.testutils.CheckerTestCase):
     def test_correct_scipy_import(self):
         scipy_import_node = astroid.extract_node(
             """
-        from scipy.misc import imread, imsave, imresize
+        from scipy.misc import imread, imsave, imresize #@
         """
         )
 
@@ -21,7 +21,7 @@ class TestScipyImport(pylint.testutils.CheckerTestCase):
     def test_incorrect_scipy_import(self):
         scipy_import_node = astroid.extract_node(
             """
-        import scipy as spy
+        import scipy as spy #@
         """
         )
 

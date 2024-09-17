@@ -12,7 +12,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.optim as optim
-            optimizer = optim.SGD(model.parameters(), momentum=0.9)  # [torch-parameter]
+            optimizer = optim.SGD(model.parameters(), momentum=0.9)  #@
             """
         )
 
@@ -33,7 +33,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.optim as optim
-            optimizer = optim.SGD(lr=0.01)  # Should not trigger
+            optimizer = optim.SGD(lr=0.01)  #@
             """
         )
 
@@ -46,7 +46,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.optim as optim
-            optimizer = optim.Adam(model.parameters())  # [torch-parameter]
+            optimizer = optim.Adam(model.parameters())  #@
             """
         )
 
@@ -67,7 +67,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.optim as optim
-            optimizer = optim.Adam(lr=0.001)  # Should not trigger
+            optimizer = optim.Adam(lr=0.001)  #@
             """
         )
 
@@ -80,7 +80,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.Conv2d(in_channels=3, kernel_size=3)  # [torch-parameter]
+            layer = nn.Conv2d(in_channels=3, kernel_size=3)  #@
             """
         )
 
@@ -101,7 +101,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3)  # Should not trigger
+            layer = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3)  #@
             """
         )
 
@@ -114,7 +114,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.Linear(in_features=128)  # [torch-parameter]
+            layer = nn.Linear(in_features=128)  #@
             """
         )
 
@@ -135,7 +135,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.Linear(in_features=128, out_features=64)  # Should not trigger
+            layer = nn.Linear(in_features=128, out_features=64)  #@
             """
         )
 
@@ -148,7 +148,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.LSTM(input_size=128)  # [torch-parameter]
+            layer = nn.LSTM(input_size=128)  #@
             """
         )
 
@@ -169,7 +169,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import torch.nn as nn
-            layer = nn.LSTM(input_size=128, hidden_size=64)  # Should not trigger
+            layer = nn.LSTM(input_size=128, hidden_size=64)  #@
             """
         )
 

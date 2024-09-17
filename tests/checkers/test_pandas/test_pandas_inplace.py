@@ -16,7 +16,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
             })
-            df.drop(columns=["A"], inplace=True)  # [pandas-inplace]
+            df.drop(columns=["A"], inplace=True)  #@
             """
         )
         with self.assertAddsMessages(
@@ -37,7 +37,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
                 "A": [1, None, 3],
                 "B": [4, 5, None]
             })
-            df.fillna(0, inplace=True)  # [pandas-inplace]
+            df.fillna(0, inplace=True)  #@
             """
         )
         with self.assertAddsMessages(
@@ -58,7 +58,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
                 "A": [3, 2, 1],
                 "B": [4, 5, 6]
             })
-            df.sort_values(by="A", inplace=True)  # [pandas-inplace]
+            df.sort_values(by="A", inplace=True)  #@
             """
         )
         with self.assertAddsMessages(
@@ -79,7 +79,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
             })
-            df = df.drop(columns=["A"])  # This should not trigger any warnings
+            df = df.drop(columns=["A"])  #@
             """
         )
 
@@ -96,7 +96,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
             })
-            df.append({"A": 4, "B": 7}, inplace=True)  # This should not trigger any warnings
+            df.append({"A": 4, "B": 7}, inplace=True)  #@
             """
         )
 

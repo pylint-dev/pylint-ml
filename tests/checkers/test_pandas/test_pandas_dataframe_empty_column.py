@@ -14,14 +14,10 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             import numpy as np
             import pandas as pd
             df_sales = pd.DataFrame()
-            df_sales['new_col_float'] = np.nan  # This should not trigger any warnings
-            df_sales['new_col_int'] = pd.Series(dtype='int')  # This should not trigger any warnings
-            df_sales['new_col_str'] = pd.Series(dtype='object')  # This should not trigger any warnings
+            df_sales['new_col_str'] = pd.Series(dtype='object')  #@
             """
         )
         with self.assertNoMessages():
-            self.checker.visit_subscript(node)
-            self.checker.visit_subscript(node)
             self.checker.visit_subscript(node)
 
     def test_incorrect_empty_column_initialization_with_zero(self):
@@ -29,11 +25,10 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_sales = pd.DataFrame()
-            df_sales['new_col_int'] = 0  # [pandas-dataframe-empty-column]
+            df_sales['new_col_int'] = 0  #@
             """
         )
 
-        # Extract the Subscript node for the df_sales['new_col_int'] assignment
         subscript_node = node.targets[0]
 
         with self.assertAddsMessages(
@@ -51,7 +46,7 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             """
             import pandas as pd
             df_sales = pd.DataFrame()
-            df_sales['new_col_str'] = ''  # [pandas-dataframe-empty-column]
+            df_sales['new_col_str'] = '' #@
             """
         )
 

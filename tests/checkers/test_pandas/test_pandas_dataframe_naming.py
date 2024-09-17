@@ -12,7 +12,7 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            df_customers = pd.DataFrame(data)
+            df_customers = pd.DataFrame(data) #@
             """
         )
         with self.assertNoMessages():
@@ -22,7 +22,7 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
         pandas_dataframe_node = astroid.extract_node(
             """
             import pandas as pd
-            customers = pd.DataFrame(data)
+            customers = pd.DataFrame(data) #@
             """
         )
         with self.assertAddsMessages(
@@ -39,7 +39,7 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
         pandas_dataframe_node = astroid.extract_node(
             """
             import pandas as pd
-            df_ = pd.DataFrame(data)
+            df_ = pd.DataFrame(data) #@
             """
         )
         with self.assertAddsMessages(

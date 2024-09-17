@@ -11,7 +11,7 @@ class TestSklearnImport(pylint.testutils.CheckerTestCase):
     def test_correct_sklearn_import(self):
         sklearn_import_node = astroid.extract_node(
             """
-        from sklearn import datasets
+        from sklearn import datasets    #@
         """
         )
 
@@ -21,7 +21,7 @@ class TestSklearnImport(pylint.testutils.CheckerTestCase):
     def test_incorrect_sklearn_import(self):
         sklearn_import_node = astroid.extract_node(
             """
-        import sklearn as skl
+        import sklearn as skl   #@
         """
         )
 
