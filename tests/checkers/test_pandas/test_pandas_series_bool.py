@@ -12,8 +12,8 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            series = pd.Series(data)
-            series.bool()  #@
+            ser_customer = pd.Series(data)
+            ser_customer.bool()  #@
             """
         )
         with self.assertAddsMessages(
@@ -30,8 +30,8 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
         node = astroid.extract_node(
             """
             import pandas as pd
-            series = pd.Series(data)
-            series.sum()  #@
+            ser_customer = pd.Series(data)
+            ser_customer.sum()  #@
             """
         )
         with self.assertNoMessages():
