@@ -27,6 +27,8 @@ class LibraryHandler(BaseChecker):
     def is_library_imported(self, library_name):
         return any(mod.startswith(library_name) for mod in self.imports.values())
 
-    def is_library_version_valid(self, lib_version):
-        # TODO update solution
-        return
+    # def is_library_version_valid(self, lib_version):
+    #     # TODO update solution
+    #     if lib_version is None:
+    #         pass
+    #     return

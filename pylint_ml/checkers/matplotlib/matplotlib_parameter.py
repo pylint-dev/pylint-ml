@@ -24,34 +24,32 @@ class MatplotlibParameterChecker(LibraryHandler):
     # Define required parameters for specific matplotlib classes and methods
     REQUIRED_PARAMS = {
         # Plotting Functions
-        'plot': ['x', 'y'],  # x and y data points are required for basic line plots
-        'scatter': ['x', 'y'],  # x and y data points are required for scatter plots
-        'bar': ['x', 'height'],  # x positions and heights are required for bar plots
-        'hist': ['x'],  # Data points (x) are required for histogram plots
-        'pie': ['x'],  # x data is required for pie chart slices
-        'imshow': ['X'],  # Input array (X) is required for displaying images
-        'contour': ['X', 'Y', 'Z'],  # X, Y, and Z data points are required for contour plots
-        'contourf': ['X', 'Y', 'Z'],  # X, Y, and Z data points for filled contour plots
-        'pcolormesh': ['X', 'Y', 'C'],  # X, Y grid and C color values are required for pseudo color plot
-
+        "plot": ["x", "y"],  # x and y data points are required for basic line plots
+        "scatter": ["x", "y"],  # x and y data points are required for scatter plots
+        "bar": ["x", "height"],  # x positions and heights are required for bar plots
+        "hist": ["x"],  # Data points (x) are required for histogram plots
+        "pie": ["x"],  # x data is required for pie chart slices
+        "imshow": ["X"],  # Input array (X) is required for displaying images
+        "contour": ["X", "Y", "Z"],  # X, Y, and Z data points are required for contour plots
+        "contourf": ["X", "Y", "Z"],  # X, Y, and Z data points for filled contour plots
+        "pcolormesh": ["X", "Y", "C"],  # X, Y grid and C color values are required for pseudo color plot
         # Axes Functions
-        'set_xlabel': ['xlabel'],  # xlabel is required for setting the x-axis label
-        'set_ylabel': ['ylabel'],  # ylabel is required for setting the y-axis label
-        'set_xlim': ['left', 'right'],  # Left and right bounds for x-axis limit
-        'set_ylim': ['bottom', 'top'],  # Bottom and top bounds for y-axis limit
-
+        "set_xlabel": ["xlabel"],  # xlabel is required for setting the x-axis label
+        "set_ylabel": ["ylabel"],  # ylabel is required for setting the y-axis label
+        "set_xlim": ["left", "right"],  # Left and right bounds for x-axis limit
+        "set_ylim": ["bottom", "top"],  # Bottom and top bounds for y-axis limit
         # Figures and Subplots
-        'subplots': ['nrows', 'ncols'],  # Number of rows and columns are required for creating a subplot grid
-        'subplot': ['nrows', 'ncols', 'index'],  # Number of rows, columns, and index for specific subplot
-
+        "subplots": ["nrows", "ncols"],  # Number of rows and columns are required for creating a subplot grid
+        "subplot": ["nrows", "ncols", "index"],  # Number of rows, columns, and index for specific subplot
         # Miscellaneous Functions
-        'savefig': ['fname'],  # Filename or file object is required to save a figure
+        "savefig": ["fname"],  # Filename or file object is required to save a figure
     }
 
     @only_required_for_messages("matplotlib-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported('matplotlib') and self.is_library_version_valid(lib_version=):
-            return
+        # TODO Update
+        # if not self.is_library_imported('matplotlib') and self.is_library_version_valid(lib_version=):
+        #     return
 
         method_name = self._get_full_method_name(node)
         if method_name in self.REQUIRED_PARAMS:
