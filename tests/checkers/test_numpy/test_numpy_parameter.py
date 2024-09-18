@@ -9,25 +9,26 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumPyParameterChecker
 
     def test_array_missing_object(self):
-        node = astroid.extract_node(
+        import_node, call_node = astroid.extract_node(
             """
-            import numpy as np
+            import numpy as np #@
             arr = np.array()  #@
             """
         )
 
-        array_call = node.value
+        call_node = call_node.value
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
                 msg_id="numpy-parameter",
                 confidence=HIGH,
-                node=array_call,
+                node=call_node,
                 args=("object", "array"),
             ),
             ignore_position=True,
         ):
-            self.checker.visit_call(array_call)
+            self.checker.visit_import(import_node)
+            self.checker.visit_call(call_node)
 
     def test_zeros_without_shape(self):
         node = astroid.extract_node(

@@ -5,12 +5,14 @@
 """Check for proper usage of numpy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.config import LIB_NUMPY
+from pylint_ml.util.library_handler import LibraryBaseChecker
 
-class NumPyParameterChecker(BaseChecker):
+
+class NumPyParameterChecker(LibraryBaseChecker):
     name = "numpy-parameter"
     msgs = {
         "W8111": (
@@ -71,6 +73,9 @@ class NumPyParameterChecker(BaseChecker):
 
     @only_required_for_messages("numpy-parameter")
     def visit_call(self, node: nodes.Call) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_NUMPY, required_version=None):
+            return
+
         method_name = self._get_full_method_name(node)
 
         if method_name in self.REQUIRED_PARAMS:

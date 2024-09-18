@@ -8,10 +8,11 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.library_handler import LibraryHandler
+from pylint_ml.util.config import LIB_MATPLOTLIB
+from pylint_ml.util.library_handler import LibraryBaseChecker
 
 
-class MatplotlibParameterChecker(LibraryHandler):
+class MatplotlibParameterChecker(LibraryBaseChecker):
     name = "matplotlib-parameter"
     msgs = {
         "W8111": (
@@ -47,9 +48,8 @@ class MatplotlibParameterChecker(LibraryHandler):
 
     @only_required_for_messages("matplotlib-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        # TODO Update
-        # if not self.is_library_imported('matplotlib') and self.is_library_version_valid(lib_version=):
-        #     return
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_MATPLOTLIB, required_version=None):
+            return
 
         method_name = self._get_full_method_name(node)
         if method_name in self.REQUIRED_PARAMS:

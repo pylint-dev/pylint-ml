@@ -7,14 +7,14 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-# Todo add version deprecated
+from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.library_handler import LibraryBaseChecker
 
 
-class PandasDataFrameBoolChecker(BaseChecker):
+class PandasDataFrameBoolChecker(LibraryBaseChecker):
     name = "pandas-dataframe-bool"
     msgs = {
         "W8104": (
@@ -26,6 +26,9 @@ class PandasDataFrameBoolChecker(BaseChecker):
 
     @only_required_for_messages("pandas-dataframe-bool")
     def visit_call(self, node: nodes.Call) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version="2.1.0"):
+            return
+
         if isinstance(node.func, nodes.Attribute):
             method_name = getattr(node.func, "attrname", None)
 

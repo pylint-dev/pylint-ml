@@ -10,10 +10,11 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.library_handler import LibraryHandler
+from pylint_ml.util.config import LIB_NUMPY
+from pylint_ml.util.library_handler import LibraryBaseChecker
 
 
-class NumpyDotChecker(LibraryHandler):
+class NumpyDotChecker(LibraryBaseChecker):
     name = "numpy-dot-checker"
     msgs = {
         "W8122": (
@@ -29,7 +30,7 @@ class NumpyDotChecker(LibraryHandler):
 
     @only_required_for_messages("numpy-dot-usage")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported("numpy"):
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_NUMPY, required_version=None):
             return
 
         # Check if the function being called is np.dot
