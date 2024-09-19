@@ -7,12 +7,14 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
-class PandasColumnSelectionChecker(BaseChecker):
+
+class PandasColumnSelectionChecker(LibraryBaseChecker):
     name = "pandas-column-selection"
     msgs = {
         "W8118": (
@@ -25,6 +27,10 @@ class PandasColumnSelectionChecker(BaseChecker):
     @only_required_for_messages("pandas-column-selection")
     def visit_attribute(self, node: nodes.Attribute) -> None:
         """Check for attribute access that might be a column selection."""
+
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+            return
+
         if isinstance(node.expr, nodes.Name) and node.expr.name.startswith("df_"):
             # Issue a warning for property-like access
             self.add_message("pandas-column-selection", node=node, confidence=HIGH)

@@ -9,9 +9,9 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasIterrowsChecker
 
     def test_iterrows_used(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame({
                 "Product": ["A", "B", "C"],
                 "Sales": [100, 200, 300]
@@ -32,4 +32,5 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(iterrows_call)

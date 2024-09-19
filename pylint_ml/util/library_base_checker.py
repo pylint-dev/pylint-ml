@@ -15,9 +15,16 @@ class LibraryBaseChecker(BaseChecker):
 
     def visit_importfrom(self, node):
         module = node.modname
+        print(module)
+
         for name, alias in node.names:
+            print(name)
+            print(alias)
+            print("-------------")
             full_name = f"{module}.{name}"
             self.imports[alias or name] = full_name
+
+        print(self.imports)
 
     def is_library_imported_and_version_valid(self, lib_name, required_version):
         """
@@ -29,6 +36,9 @@ class LibraryBaseChecker(BaseChecker):
         return: True if the library is imported and the version is valid, otherwise False.
         """
         # Check if the library is imported
+        print("xxxxxxxxxxxx")
+        print(lib_name)
+
         if not any(mod.startswith(lib_name) for mod in self.imports.values()):
             return False
 

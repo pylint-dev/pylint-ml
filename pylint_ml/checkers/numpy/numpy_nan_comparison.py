@@ -11,7 +11,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.config import LIB_NUMPY
-from pylint_ml.util.library_handler import LibraryBaseChecker
+from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 COMPARISON_OP = frozenset(("<", "<=", ">", ">=", "!=", "=="))
 NUMPY_NAN = frozenset(("nan", "NaN", "NAN"))

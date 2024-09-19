@@ -9,9 +9,9 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasValuesChecker
 
     def test_values_usage_with_correct_naming(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame({
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
@@ -31,4 +31,5 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_attribute(attribute_node)

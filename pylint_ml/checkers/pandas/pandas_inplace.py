@@ -11,8 +11,11 @@ from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
-class PandasInplaceChecker(BaseChecker):
+
+class PandasInplaceChecker(LibraryBaseChecker):
     name = "pandas-inplace"
     msgs = {
         "W8109": (
@@ -39,6 +42,9 @@ class PandasInplaceChecker(BaseChecker):
 
     @only_required_for_messages("pandas-inplace")
     def visit_call(self, node: nodes.Call) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+            return
+
         # Check if the call is to a method that supports 'inplace'
         if isinstance(node.func, nodes.Attribute):
             method_name = node.func.attrname

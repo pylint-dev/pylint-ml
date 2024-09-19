@@ -11,8 +11,11 @@ from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
-class PandasValuesChecker(BaseChecker):
+
+class PandasValuesChecker(LibraryBaseChecker):
     name = "pandas-dataframe-values"
     msgs = {
         "W8112": (
@@ -25,6 +28,9 @@ class PandasValuesChecker(BaseChecker):
 
     @only_required_for_messages("pandas-dataframe-values")
     def visit_attribute(self, node: nodes.Attribute) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+            return
+
         if isinstance(node.expr, nodes.Name):
             if node.attrname == "values" and node.expr.name.startswith("df_"):
                 self.add_message("pandas-dataframe-values", node=node, confidence=HIGH)

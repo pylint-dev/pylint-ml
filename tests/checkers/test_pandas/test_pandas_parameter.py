@@ -9,10 +9,10 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasParameterChecker
 
     def test_dataframe_missing_data(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
-            df_yoda = pd.DataFrame()  #@
+            import pandas as pd #@
+            df_yoda = pd.DataFrame() #@
             """
         )
 
@@ -27,15 +27,16 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(dataframe_call)
 
     def test_merge_without_required_params(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_yoda1 = pd.DataFrame({'A': [1, 2]})
             df_yoda2 = pd.DataFrame({'A': [3, 4]})
-            df_yoda_merged = df_yoda1.merge(df_yoda2)  #@
+            df_yoda_merged = df_yoda1.merge(df_yoda2) #@
             """
         )
 
@@ -50,13 +51,14 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
     def test_read_csv_without_filepath(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
-            df_yoda = pd.read_csv()  #@
+            import pandas as pd #@
+            df_yoda = pd.read_csv() #@
             """
         )
 
@@ -71,14 +73,15 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(read_csv_call)
 
     def test_to_csv_without_path(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.to_csv()  #@
+            df_yoda.to_csv() #@
             """
         )
 
@@ -93,14 +96,15 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(to_csv_call)
 
     def test_groupby_without_by(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.groupby()  #@
+            df_yoda.groupby() #@
             """
         )
 
@@ -115,14 +119,15 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(groupby_call)
 
     def test_fillna_without_value(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_yoda = pd.DataFrame({'A': [1, None]})
-            df_yoda.fillna()  #@
+            df_yoda.fillna() #@
             """
         )
 
@@ -137,14 +142,15 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(fillna_call)
 
     def test_sort_values_without_by(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_yoda = pd.DataFrame({'A': [1, 2]})
-            df_yoda.sort_values()  #@
+            df_yoda.sort_values() #@
             """
         )
 
@@ -159,13 +165,14 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(sort_values_call)
 
     def test_merge_with_missing_validate(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
-            df_3 = df_1.merge(right=df_2, how='inner', on='col1')  #@
+            import pandas as pd #@
+            df_3 = df_1.merge(right=df_2, how='inner', on='col1') #@
             """
         )
 
@@ -180,13 +187,14 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
     def test_merge_with_wrong_naming_and_missing_params(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
-            merged_df = df_1.merge(right=df_2)  #@
+            import pandas as pd #@
+            merged_df = df_1.merge(right=df_2) #@
             """
         )
 
@@ -198,17 +206,19 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
     def test_merge_with_all_params_and_correct_naming(self):
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
-            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1')  #@
+            import pandas as pd #@
+            df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1') #@
             """
         )
 
         merge_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)

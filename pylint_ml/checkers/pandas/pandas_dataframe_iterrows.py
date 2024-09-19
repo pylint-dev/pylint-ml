@@ -11,8 +11,11 @@ from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
-class PandasIterrowsChecker(BaseChecker):
+
+class PandasIterrowsChecker(LibraryBaseChecker):
     name = "pandas-iterrows"
     msgs = {
         "W8106": (
@@ -25,6 +28,9 @@ class PandasIterrowsChecker(BaseChecker):
 
     @only_required_for_messages("pandas-iterrows")
     def visit_call(self, node: nodes.Call) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+            return
+
         if isinstance(node.func, nodes.Attribute):
             method_name = getattr(node.func, "attrname", None)
             if method_name == "iterrows":
