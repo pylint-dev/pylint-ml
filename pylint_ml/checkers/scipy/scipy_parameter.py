@@ -5,10 +5,10 @@
 """Check for proper usage of Scipy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.common import get_full_method_name
 from pylint_ml.util.config import LIB_SCIPY
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
@@ -48,10 +48,9 @@ class ScipyParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=LIB_SCIPY, required_version=None):
             return
 
-        method_name = self._get_full_method_name(node)
+        method_name = get_full_method_name(node)
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            # Collect all missing parameters
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:
                 self.add_message(
@@ -60,22 +59,3 @@ class ScipyParameterChecker(LibraryBaseChecker):
                     confidence=HIGH,
                     args=(", ".join(missing_params), method_name),
                 )
-
-    def _get_full_method_name(self, node: nodes.Call) -> str:
-        """
-        Extracts the full method name, including handling chained attributes (e.g., scipy.spatial.distance.euclidean)
-        and also handles direct imports like euclidean.
-        """
-        func = node.func
-        method_chain = []
-
-        # Traverse the attribute chain to get the full method name
-        while isinstance(func, nodes.Attribute):
-            method_chain.insert(0, func.attrname)
-            func = func.expr
-
-        # If it's a direct function name, like `euclidean`, return it
-        if isinstance(func, nodes.Name):
-            method_chain.insert(0, func.name)
-
-        return ".".join(method_chain)

@@ -5,10 +5,10 @@
 """Check for proper usage of Scikit-learn functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.util.common import get_method_name
 from pylint_ml.util.config import LIB_SKLEARN
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
@@ -43,10 +43,9 @@ class SklearnParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=LIB_SKLEARN, required_version=None):
             return
 
-        method_name = self._get_method_name(node)
+        method_name = get_method_name(node)
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            # Collect all missing parameters
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:
                 self.add_message(
@@ -55,15 +54,3 @@ class SklearnParameterChecker(LibraryBaseChecker):
                     confidence=HIGH,
                     args=(", ".join(missing_params), method_name),
                 )
-
-    @staticmethod
-    def _get_method_name(node: nodes.Call) -> str:
-        """Extracts the method name from a Call node, including handling chained calls."""
-        func = node.func
-        while isinstance(func, nodes.Attribute):
-            func = func.expr
-        return (
-            node.func.attrname
-            if isinstance(node.func, nodes.Attribute)
-            else func.name if isinstance(func, nodes.Name) else ""
-        )
