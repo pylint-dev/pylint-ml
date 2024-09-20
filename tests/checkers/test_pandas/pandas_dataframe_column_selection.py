@@ -8,7 +8,9 @@ from pylint_ml.checkers.pandas.pandas_dataframe_column_selection import PandasCo
 class TestPandasColumnSelectionChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasColumnSelectionChecker
 
-    def test_incorrect_column_selection(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_incorrect_column_selection(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@

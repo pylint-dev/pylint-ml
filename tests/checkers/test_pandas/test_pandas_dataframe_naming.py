@@ -8,7 +8,9 @@ from pylint_ml.checkers.pandas.pandas_dataframe_naming import PandasDataFrameNam
 class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasDataFrameNamingChecker
 
-    def test_correct_dataframe_naming(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_correct_dataframe_naming(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -19,7 +21,9 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_assign(node)
 
-    def test_incorrect_dataframe_naming(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_incorrect_dataframe_naming(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, pandas_dataframe_node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -37,7 +41,9 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_assign(pandas_dataframe_node)
 
-    def test_incorrect_dataframe_name_length(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_incorrect_dataframe_name_length(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, pandas_dataframe_node = astroid.extract_node(
             """
             import pandas as pd #@

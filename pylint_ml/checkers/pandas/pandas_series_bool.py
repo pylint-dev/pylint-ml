@@ -11,7 +11,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 # Todo add version deprecated
-from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.config import PANDAS
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -27,7 +27,7 @@ class PandasSeriesBoolChecker(LibraryBaseChecker):
 
     @only_required_for_messages("pandas-series-bool")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
         if isinstance(node.func, nodes.Attribute):

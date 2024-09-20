@@ -8,7 +8,9 @@ from pylint_ml.checkers.tensorflow.tensor_parameter import TensorFlowParameterCh
 class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = TensorFlowParameterChecker
 
-    def test_sequential_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_sequential_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -29,7 +31,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(sequential_call)
 
-    def test_sequential_with_layers(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_sequential_with_layers(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -45,7 +49,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(sequential_call)
 
-    def test_compile_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_compile_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -65,7 +71,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(node)
 
-    def test_compile_with_all_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_compile_with_all_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -79,7 +87,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(compile_call)
 
-    def test_fit_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_fit_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -102,7 +112,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(fit_call)
 
-    def test_fit_with_all_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_fit_with_all_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -117,7 +129,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(fit_call)
 
-    def test_conv2d_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_conv2d_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -138,7 +152,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(conv2d_call)
 
-    def test_conv2d_with_all_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_conv2d_with_all_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -151,7 +167,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(conv2d_call)
 
-    def test_dense_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_dense_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf
@@ -172,7 +190,9 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(dense_call)
 
-    def test_dense_with_all_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_dense_with_all_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             import tensorflow as tf

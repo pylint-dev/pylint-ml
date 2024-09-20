@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_method_name
-from pylint_ml.util.config import LIB_TENSORFLOW
+from pylint_ml.util.config import TENSORFLOW
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -38,7 +38,7 @@ class TensorFlowParameterChecker(LibraryBaseChecker):
 
     @only_required_for_messages("tensor-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_TENSORFLOW, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=TENSORFLOW, required_version=None):
             return
 
         method_name = get_method_name(node)

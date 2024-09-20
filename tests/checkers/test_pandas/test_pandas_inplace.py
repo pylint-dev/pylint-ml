@@ -8,6 +8,7 @@ from pylint_ml.checkers.pandas.pandas_inplace import PandasInplaceChecker
 class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasInplaceChecker
 
+    @patch("pylint_ml.util.library_base_checker.version")
     def test_inplace_used_in_drop(self):
         import_node, node = astroid.extract_node(
             """
@@ -30,6 +31,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(node)
 
+    @patch("pylint_ml.util.library_base_checker.version")
     def test_inplace_used_in_fillna(self):
         import_node, node = astroid.extract_node(
             """
@@ -52,6 +54,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(node)
 
+    @patch("pylint_ml.util.library_base_checker.version")
     def test_inplace_used_in_sort_values(self):
         import_node, node = astroid.extract_node(
             """
@@ -74,6 +77,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(node)
 
+    @patch("pylint_ml.util.library_base_checker.version")
     def test_no_inplace(self):
         import_node, node = astroid.extract_node(
             """
@@ -92,6 +96,7 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(inplace_call)
 
+    @patch("pylint_ml.util.library_base_checker.version")
     def test_inplace_used_in_unsupported_method(self):
         import_node, node = astroid.extract_node(
             """

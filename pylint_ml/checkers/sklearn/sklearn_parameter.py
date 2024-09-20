@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_method_name
-from pylint_ml.util.config import LIB_SKLEARN
+from pylint_ml.util.config import SKLEARN
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -40,7 +40,7 @@ class SklearnParameterChecker(LibraryBaseChecker):
 
     @only_required_for_messages("sklearn-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_SKLEARN, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=SKLEARN, required_version=None):
             return
 
         method_name = get_method_name(node)

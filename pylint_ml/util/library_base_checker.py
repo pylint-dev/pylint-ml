@@ -31,14 +31,11 @@ class LibraryBaseChecker(BaseChecker):
         Checks if the library is imported and whether the installed version is valid (greater than or equal to the
         required version).
 
-        param lib_name: Name of the library (as a string).
+        param lib_alias: Name of the library (as a string).
         param required_version: The required minimum version (as a string).
         return: True if the library is imported and the version is valid, otherwise False.
         """
         # Check if the library is imported
-        print("xxxxxxxxxxxx")
-        print(lib_name)
-
         if not any(mod.startswith(lib_name) for mod in self.imports.values()):
             return False
 

@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_method_name
-from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.config import PANDAS
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -67,7 +67,7 @@ class PandasParameterChecker(LibraryBaseChecker):
 
     @only_required_for_messages("pandas-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
         method_name = get_method_name(node)

@@ -8,7 +8,9 @@ from pylint_ml.checkers.sklearn.sklearn_parameter import SklearnParameterChecker
 class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = SklearnParameterChecker
 
-    def test_random_forest_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_random_forest_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.ensemble import RandomForestClassifier
@@ -29,7 +31,9 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(forest_call)
 
-    def test_random_forest_with_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_random_forest_with_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.ensemble import RandomForestClassifier
@@ -42,7 +46,9 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(forest_call)
 
-    def test_svc_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_svc_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.svm import SVC
@@ -63,7 +69,9 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(svc_call)
 
-    def test_svc_with_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_svc_with_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.svm import SVC
@@ -76,7 +84,9 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(svc_call)
 
-    def test_kmeans_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_kmeans_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.cluster import KMeans
@@ -97,7 +107,9 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(kmeans_call)
 
-    def test_kmeans_with_params(self):
+    @patch("pylint_ml.util.library_base_checker.version")
+    def test_kmeans_with_params(self, mock_version):
+        mock_version.return_value = "1.5.2"
         node = astroid.extract_node(
             """
             from sklearn.cluster import KMeans

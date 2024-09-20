@@ -10,7 +10,7 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.config import LIB_NUMPY
+from pylint_ml.util.config import NUMPY, NUMPY_ALIAS
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 COMPARISON_OP = frozenset(("<", "<=", ">", ">=", "!=", "=="))
@@ -30,11 +30,11 @@ class NumpyNaNComparisonChecker(LibraryBaseChecker):
     @classmethod
     def __is_np_nan_call(cls, node: nodes.Attribute) -> bool:
         """Check if the node represents a call to np.nan."""
-        return node.attrname in NUMPY_NAN and isinstance(node.expr, nodes.Name) and node.expr.name == "np"
+        return node.attrname in NUMPY_NAN and isinstance(node.expr, nodes.Name) and node.expr.name == NUMPY_ALIAS
 
     @only_required_for_messages("numpy-nan-compare")
     def visit_compare(self, node: nodes.Compare) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_NUMPY, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
             return
 
         if isinstance(node.left, nodes.Attribute) and self.__is_np_nan_call(node.left):

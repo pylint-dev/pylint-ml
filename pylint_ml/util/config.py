@@ -1,8 +1,17 @@
 # Library names
-LIB_PANDAS = "pandas"
-LIB_NUMPY = "numpy"
-LIB_TENSORFLOW = "tensor"
-LIB_SCIPY = "scipy"
-LIB_SKLEARN = "sklearn"
-LIB_PYTORCH = "torch"
-LIB_MATPLOTLIB = "matplotlib"
+PANDAS = "pandas"
+PANDAS_ALIAS = "pd"
+
+NUMPY = "numpy"
+NUMPY_ALIAS = "np"
+
+TENSORFLOW = "tensor"
+
+SCIPY = "scipy"
+
+SKLEARN = "sklearn"
+
+PYTORCH = "torch"
+
+MATPLOTLIB = "matplotlib"
+

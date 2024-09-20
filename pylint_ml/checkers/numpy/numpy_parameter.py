@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_full_method_name
-from pylint_ml.util.config import LIB_NUMPY
+from pylint_ml.util.config import NUMPY, NUMPY_ALIAS
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -74,10 +74,10 @@ class NumPyParameterChecker(LibraryBaseChecker):
 
     @only_required_for_messages("numpy-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_NUMPY, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
             return
 
-        method_name = get_full_method_name(node)
+        method_name = get_full_method_name(lib_alias=NUMPY_ALIAS, node=node)
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]

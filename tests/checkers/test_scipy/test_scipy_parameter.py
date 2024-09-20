@@ -10,7 +10,6 @@ from pylint_ml.checkers.scipy.scipy_parameter import ScipyParameterChecker
 class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = ScipyParameterChecker
 
-    # TODO CONTINUE WITH MOCK FOR ALL TESTS
     @patch("pylint_ml.util.library_base_checker.version")
     def test_minimize_params(self, mock_version):
         mock_version.return_value = "1.7.0"

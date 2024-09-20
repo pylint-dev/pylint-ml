@@ -10,7 +10,7 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.config import LIB_PANDAS
+from pylint_ml.util.config import PANDAS
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -26,7 +26,7 @@ class PandasDataFrameNamingChecker(LibraryBaseChecker):
 
     @only_required_for_messages("pandas-dataframe-naming")
     def visit_assign(self, node: nodes.Assign) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_PANDAS, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
         if isinstance(node.value, nodes.Call):

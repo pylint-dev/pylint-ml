@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_method_name
-from pylint_ml.util.config import LIB_PYTORCH
+from pylint_ml.util.config import PYTORCH
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -37,7 +37,7 @@ class PyTorchParameterChecker(LibraryBaseChecker):
 
     @only_required_for_messages("pytorch-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        if not self.is_library_imported_and_version_valid(lib_name=LIB_PYTORCH, required_version=None):
+        if not self.is_library_imported_and_version_valid(lib_name=PYTORCH, required_version=None):
             return
 
         method_name = get_method_name(node)
