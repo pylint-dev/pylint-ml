@@ -10,8 +10,8 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.config import NUMPY, NUMPY_ALIAS
-from pylint_ml.util.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.config import NUMPY, NUMPY_ALIAS
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
 
 COMPARISON_OP = frozenset(("<", "<=", ">", ">=", "!=", "=="))
 NUMPY_NAN = frozenset(("nan", "NaN", "NAN"))

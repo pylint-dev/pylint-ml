@@ -20,3 +20,17 @@ def get_full_method_name(node: nodes.Call) -> str:
     print(method_chain)
     # Join the method chain to create the full method name
     return ".".join(method_chain)
+
+
+def is_specific_library_object(node: nodes.NodeNG, library_name: str) -> bool:
+    """
+    Returns True if the given node is an object from the specified library/module.
+
+    Args:
+        node: The AST node to check.
+        library_name: The name of the library/module to check (e.g., 'pandas', 'numpy').
+
+    Returns:
+        bool: True if the node belongs to the specified library, False otherwise.
+    """
+    return node and node.root().name == library_name  # Checks if the root module matches the library name

@@ -5,12 +5,12 @@
 """Check for proper usage of Pandas functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.common import get_full_method_name
-from pylint_ml.util.config import PANDAS
-from pylint_ml.util.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import get_full_method_name
+from pylint_ml.checkers.config import PANDAS
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
 
 
 class PandasParameterChecker(LibraryBaseChecker):
@@ -70,14 +70,25 @@ class PandasParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        method_name = get_full_method_name(node)
-        if method_name in self.REQUIRED_PARAMS:
+        method_name = get_full_method_name(node=node)
+        extracted_method = method_name[len("pd."):]
+
+        infer_node = safe_infer(node=node)
+        infer_object = safe_infer(node.func.expr)
+        print(node.func.expr)
+        print(infer_object)
+        print("------")
+        print(infer_node)
+
+        if method_name.startswith("pd.") and extracted_method in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
+            missing_params = [
+                param for param in self.REQUIRED_PARAMS[extracted_method] if param not in provided_keywords
+            ]
             if missing_params:
                 self.add_message(
                     "pandas-parameter",
                     node=node,
                     confidence=HIGH,
-                    args=(", ".join(missing_params), method_name),
+                    args=(", ".join(missing_params), extracted_method),
                 )

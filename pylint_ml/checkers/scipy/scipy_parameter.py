@@ -5,12 +5,12 @@
 """Check for proper usage of Scipy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.common import get_full_method_name
-from pylint_ml.util.config import SCIPY
-from pylint_ml.util.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import get_full_method_name
+from pylint_ml.checkers.config import SCIPY
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
 
 
 class ScipyParameterChecker(LibraryBaseChecker):
@@ -49,6 +49,15 @@ class ScipyParameterChecker(LibraryBaseChecker):
             return
 
         method_name = get_full_method_name(node=node)
+
+        infer_node = safe_infer(node=node)
+        print("------")
+        print(infer_node)
+        infer_object = safe_infer(node.func.expr)
+        print(node.func.expr)
+        print(infer_object)
+
+
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]

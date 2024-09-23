@@ -10,8 +10,8 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
-from pylint_ml.util.config import PANDAS
-from pylint_ml.util.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.config import PANDAS
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
 
 
 class PandasIterrowsChecker(LibraryBaseChecker):
