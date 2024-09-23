@@ -9,7 +9,11 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_full_method_name
+<<<<<<< HEAD
 from pylint_ml.util.config import SCIPY
+=======
+from pylint_ml.util.config import PANDAS_ALIAS, SCIPY
+>>>>>>> 6b9e23511e31028622f7000043202d781237aa52
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
