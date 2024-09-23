@@ -52,8 +52,7 @@ class MatplotlibParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=MATPLOTLIB, required_version=None):
             return
 
-        # TODO UPDATE
-        method_name = get_full_method_name(lib_alias="", node=node)
+        method_name = get_full_method_name(node=node)
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]

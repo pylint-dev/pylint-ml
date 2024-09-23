@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_full_method_name
-from pylint_ml.util.config import NUMPY, NUMPY_ALIAS
+from pylint_ml.util.config import NUMPY
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -77,14 +77,17 @@ class NumPyParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
             return
 
-        method_name = get_full_method_name(lib_alias=NUMPY_ALIAS, node=node)
-        if method_name in self.REQUIRED_PARAMS:
+        method_name = get_full_method_name(node=node)
+        extracted_method = method_name[len("np.") :]
+        if method_name.startswith("np.") and extracted_method in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
+            missing_params = [
+                param for param in self.REQUIRED_PARAMS[extracted_method] if param not in provided_keywords
+            ]
             if missing_params:
                 self.add_message(
                     "numpy-parameter",
                     node=node,
                     confidence=HIGH,
-                    args=(", ".join(missing_params), method_name),
+                    args=(", ".join(missing_params), extracted_method),
                 )

@@ -14,4 +14,3 @@ SKLEARN = "sklearn"
 PYTORCH = "torch"
 
 MATPLOTLIB = "matplotlib"
-

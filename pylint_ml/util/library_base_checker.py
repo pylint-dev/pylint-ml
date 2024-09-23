@@ -11,27 +11,21 @@ class LibraryBaseChecker(BaseChecker):
 
     def visit_import(self, node):
         for name, alias in node.names:
-            self.imports[alias or name] = name
+            self.imports[alias or name] = name  # E.g. {'pd': 'pandas'}
 
     def visit_importfrom(self, node):
-        module = node.modname
-        print(module)
+        base_module = node.modname.split(".")[0]  # Extract the first part of the module name
 
         for name, alias in node.names:
-            print(name)
-            print(alias)
-            print("-------------")
-            full_name = f"{module}.{name}"
-            self.imports[alias or name] = full_name
-
-        print(self.imports)
+            full_name = f"{node.modname}.{name}"
+            self.imports[base_module] = full_name  # E.g. {'scipy': 'scipy.optimize.minimize'}
 
     def is_library_imported_and_version_valid(self, lib_name, required_version):
         """
         Checks if the library is imported and whether the installed version is valid (greater than or equal to the
         required version).
 
-        param lib_alias: Name of the library (as a string).
+        param lib_name: Name of the library (as a string).
         param required_version: The required minimum version (as a string).
         return: True if the library is imported and the version is valid, otherwise False.
         """

@@ -9,7 +9,7 @@ from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.util.common import get_full_method_name
-from pylint_ml.util.config import SCIPY, PANDAS_ALIAS
+from pylint_ml.util.config import SCIPY
 from pylint_ml.util.library_base_checker import LibraryBaseChecker
 
 
@@ -48,7 +48,7 @@ class ScipyParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=SCIPY, required_version=None):
             return
 
-        method_name = get_full_method_name(lib_alias=PANDAS_ALIAS, node=node)
+        method_name = get_full_method_name(node=node)
         if method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]

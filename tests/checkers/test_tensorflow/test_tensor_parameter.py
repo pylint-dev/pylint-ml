@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH

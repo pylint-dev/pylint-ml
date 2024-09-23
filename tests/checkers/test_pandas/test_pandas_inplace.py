@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -9,7 +11,8 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasInplaceChecker
 
     @patch("pylint_ml.util.library_base_checker.version")
-    def test_inplace_used_in_drop(self):
+    def test_inplace_used_in_drop(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -32,7 +35,8 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(node)
 
     @patch("pylint_ml.util.library_base_checker.version")
-    def test_inplace_used_in_fillna(self):
+    def test_inplace_used_in_fillna(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -55,7 +59,8 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(node)
 
     @patch("pylint_ml.util.library_base_checker.version")
-    def test_inplace_used_in_sort_values(self):
+    def test_inplace_used_in_sort_values(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -78,7 +83,8 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(node)
 
     @patch("pylint_ml.util.library_base_checker.version")
-    def test_no_inplace(self):
+    def test_no_inplace(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
@@ -97,7 +103,8 @@ class TestPandasInplaceChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(inplace_call)
 
     @patch("pylint_ml.util.library_base_checker.version")
-    def test_inplace_used_in_unsupported_method(self):
+    def test_inplace_used_in_unsupported_method(self, mock_version):
+        mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
