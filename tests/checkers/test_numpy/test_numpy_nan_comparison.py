@@ -10,7 +10,7 @@ from pylint_ml.checkers.numpy.numpy_nan_comparison import NumpyNaNComparisonChec
 class TestNumpyNaNComparison(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumpyNaNComparisonChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_singleton_nan_compare(self, mock_version):
         mock_version.return_value = "2.1.1"
         import_node, singleton_node, chained_node, great_than_node = astroid.extract_node(

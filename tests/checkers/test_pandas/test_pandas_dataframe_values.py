@@ -10,7 +10,7 @@ from pylint_ml.checkers.pandas.pandas_dataframe_values import PandasValuesChecke
 class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasValuesChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_values_usage_with_correct_naming(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(

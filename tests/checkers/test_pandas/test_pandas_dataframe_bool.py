@@ -10,7 +10,7 @@ from pylint_ml.checkers.pandas.pandas_dataframe_bool import PandasDataFrameBoolC
 class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasDataFrameBoolChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_dataframe_bool_usage(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, call_node = astroid.extract_node(
@@ -31,7 +31,7 @@ class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(call_node)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_no_bool_usage(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(

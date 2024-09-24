@@ -10,7 +10,7 @@ from pylint_ml.checkers.pandas.pandas_series_naming import PandasSeriesNamingChe
 class TestPandasSeriesNamingChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasSeriesNamingChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_series_correct_naming(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -23,7 +23,7 @@ class TestPandasSeriesNamingChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_assign(node)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_series_incorrect_naming(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -43,7 +43,7 @@ class TestPandasSeriesNamingChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_assign(node)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_series_invalid_length_naming(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(

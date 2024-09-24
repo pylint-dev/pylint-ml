@@ -8,9 +8,9 @@ from astroid import nodes
 from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
-from pylint_ml.checkers.utils import get_full_method_name
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import get_full_method_name
 
 
 class PandasParameterChecker(LibraryBaseChecker):
@@ -71,7 +71,7 @@ class PandasParameterChecker(LibraryBaseChecker):
             return
 
         method_name = get_full_method_name(node=node)
-        extracted_method = method_name[len("pd."):]
+        extracted_method = method_name[len("pd.") :]
 
         infer_node = safe_infer(node=node)
         infer_object = safe_infer(node.func.expr)

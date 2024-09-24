@@ -10,7 +10,7 @@ from pylint_ml.checkers.pandas.pandas_dataframe_iterrows import PandasIterrowsCh
 class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasIterrowsChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_iterrows_used(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(

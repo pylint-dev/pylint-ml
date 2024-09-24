@@ -10,7 +10,7 @@ from pylint_ml.checkers.pandas.pandas_parameter import PandasParameterChecker
 class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasParameterChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_dataframe_missing_data(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -34,7 +34,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(dataframe_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_merge_without_required_params(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -60,7 +60,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_read_csv_without_filepath(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -84,7 +84,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(read_csv_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_to_csv_without_path(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -109,7 +109,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(to_csv_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_groupby_without_by(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -134,7 +134,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(groupby_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_fillna_without_value(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -159,7 +159,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(fillna_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_sort_values_without_by(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -184,7 +184,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(sort_values_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_merge_with_missing_validate(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -208,7 +208,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_merge_with_wrong_naming_and_missing_params(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(
@@ -229,7 +229,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(import_node)
             self.checker.visit_call(merge_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_merge_with_all_params_and_correct_naming(self, mock_version):
         mock_version.return_value = "2.2.2"
         import_node, node = astroid.extract_node(

@@ -12,6 +12,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import NUMPY
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class NumpyDotChecker(LibraryBaseChecker):
@@ -25,19 +26,16 @@ class NumpyDotChecker(LibraryBaseChecker):
         ),
     }
 
-    def visit_import(self, node: nodes.Import):
-        super().visit_import(node=node)
-
     @only_required_for_messages("numpy-dot-usage")
     def visit_call(self, node: nodes.Call) -> None:
         if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
             return
 
         # Check if the function being called is np.dot
-        if isinstance(node.func, nodes.Attribute):
-            func_name = node.func.attrname
-            module_name = getattr(node.func.expr, "name", None)
-
-            if func_name == "dot" and module_name == "np":
-                # Suggest using np.matmul() instead
-                self.add_message("numpy-dot-usage", node=node, confidence=HIGH)
+        if (
+            isinstance(node.func, nodes.Attribute)
+            and node.func.attrname == "dot"
+            and infer_specific_module_from_call(node=node, module_name=NUMPY)
+        ):
+            # Suggest using np.matmul() instead
+            self.add_message("numpy-dot-usage", node=node, confidence=HIGH)

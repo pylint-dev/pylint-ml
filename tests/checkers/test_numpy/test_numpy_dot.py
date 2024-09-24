@@ -10,7 +10,7 @@ from pylint_ml.checkers.numpy.numpy_dot import NumpyDotChecker
 class TestNumpyDotChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumpyDotChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_warning_for_dot(self, mock_version):
         mock_version.return_value = "1.7.0"
         import_np, node = astroid.extract_node(

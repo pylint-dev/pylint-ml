@@ -10,7 +10,7 @@ from pylint_ml.checkers.torch.torch_parameter import PyTorchParameterChecker
 class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PyTorchParameterChecker
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_sgd_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -33,7 +33,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(sgd_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_sgd_with_all_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -48,7 +48,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(sgd_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_adam_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -71,7 +71,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(adam_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_adam_with_all_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -86,7 +86,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(adam_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_conv2d_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -109,7 +109,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(conv2d_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_conv2d_with_all_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -124,7 +124,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(conv2d_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_linear_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -147,7 +147,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(linear_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_linear_with_all_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -162,7 +162,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(linear_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_lstm_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
@@ -185,7 +185,7 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         ):
             self.checker.visit_call(lstm_call)
 
-    @patch("pylint_ml.util.library_base_checker.version")
+    @patch("pylint_ml.checkers.library_base_checker.version")
     def test_lstm_with_all_params(self, mock_version):
         mock_version.return_value = "2.4.1"
         node = astroid.extract_node(
