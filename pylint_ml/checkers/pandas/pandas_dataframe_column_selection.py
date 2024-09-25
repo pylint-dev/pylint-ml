@@ -12,6 +12,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_attribute
 
 
 class PandasColumnSelectionChecker(LibraryBaseChecker):
@@ -31,6 +32,10 @@ class PandasColumnSelectionChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        if isinstance(node.expr, nodes.Name) and node.expr.name.startswith("df_"):
+        if (
+                infer_specific_module_from_attribute(node=node, module_name=PANDAS)
+                and isinstance(node.expr, nodes.Name)
+                and node.expr.name.startswith("df_")
+        ):
             # Issue a warning for property-like access
             self.add_message("pandas-column-selection", node=node, confidence=HIGH)

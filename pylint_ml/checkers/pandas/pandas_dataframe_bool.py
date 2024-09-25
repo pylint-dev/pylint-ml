@@ -7,11 +7,12 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class PandasDataFrameBoolChecker(LibraryBaseChecker):
@@ -31,11 +32,14 @@ class PandasDataFrameBoolChecker(LibraryBaseChecker):
 
         if isinstance(node.func, nodes.Attribute):
             method_name = getattr(node.func, "attrname", None)
-
             if method_name == "bool":
                 # Check if the object calling .bool() has a name starting with 'df_'
                 object_name = getattr(node.func.expr, "name", None)
-                if object_name and self._is_valid_dataframe_name(object_name):
+                if (
+                        infer_specific_module_from_call(node=node, module_name=PANDAS)
+                        and object_name
+                        and self._is_valid_dataframe_name(object_name)
+                ):
                     self.add_message("pandas-dataframe-bool", node=node, confidence=HIGH)
 
     @staticmethod
