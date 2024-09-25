@@ -5,12 +5,12 @@
 """Check for proper usage of numpy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages, safe_infer
+from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import NUMPY
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
-from pylint_ml.checkers.utils import get_full_method_name, infer_specific_module_from_call
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class NumPyParameterChecker(LibraryBaseChecker):
@@ -79,8 +79,14 @@ class NumPyParameterChecker(LibraryBaseChecker):
 
         method_name = getattr(node.func, "attrname", None)
         if (
+<<<<<<< HEAD
                 infer_specific_module_from_call(node=node, module_name=NUMPY)
                 and method_name in self.REQUIRED_PARAMS
+=======
+            infer_specific_module_from_call(node=node, module_name=NUMPY)
+            and isinstance(node.func, nodes.Attribute)
+            and node.func.attrname in self.REQUIRED_PARAMS
+>>>>>>> 6b9ee0fb66110701f298b8fa6465189e15f1b335
         ):
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [
