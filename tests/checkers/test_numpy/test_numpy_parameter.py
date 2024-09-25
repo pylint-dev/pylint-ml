@@ -75,7 +75,7 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
                 msg_id="numpy-parameter",
                 confidence=HIGH,
                 node=rand_call,
-                args=("d0", "random.rand"),
+                args=("d0", "rand"),
             ),
             ignore_position=True,
         ):

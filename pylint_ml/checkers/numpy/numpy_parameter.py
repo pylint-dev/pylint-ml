@@ -10,7 +10,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import NUMPY
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
-from pylint_ml.checkers.utils import get_full_method_name
+from pylint_ml.checkers.utils import get_full_method_name, infer_specific_module_from_call
 
 
 class NumPyParameterChecker(LibraryBaseChecker):
@@ -36,12 +36,12 @@ class NumPyParameterChecker(LibraryBaseChecker):
         "eye": ["N"],
         "identity": ["n"],
         # Random Sampling
-        "random.rand": ["d0"],
-        "random.randn": ["d0"],
-        "random.randint": ["low", "high"],
-        "random.choice": ["a"],
-        "random.uniform": ["low", "high"],
-        "random.normal": ["loc", "scale"],
+        "rand": ["d0"],
+        "randn": ["d0"],
+        "randint": ["low", "high"],
+        "choice": ["a"],
+        "uniform": ["low", "high"],
+        "normal": ["loc", "scale"],
         # Mathematical Functions
         "sum": ["a"],
         "mean": ["a"],
@@ -62,9 +62,9 @@ class NumPyParameterChecker(LibraryBaseChecker):
         # Linear Algebra
         "dot": ["a", "b"],
         "matmul": ["a", "b"],
-        "linalg.inv": ["a"],
-        "linalg.eig": ["a"],
-        "linalg.solve": ["a", "b"],
+        "inv": ["a"],
+        "eig": ["a"],
+        "solve": ["a", "b"],
         # Statistical Functions
         "percentile": ["a", "q"],
         "quantile": ["a", "q"],
@@ -77,25 +77,19 @@ class NumPyParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
             return
 
-        method_name = get_full_method_name(node=node)
-        extracted_method = method_name[len("np.") :]
-
-        infer_node = safe_infer(node=node)
-        infer_object = safe_infer(node.func.expr)
-        print(node.func.expr)
-        print(infer_object)
-        print("------")
-        print(infer_node)
-
-        if method_name.startswith("np.") and extracted_method in self.REQUIRED_PARAMS:
+        if (
+                infer_specific_module_from_call(node=node, module_name=NUMPY)
+                and isinstance(node.func, nodes.Attribute)
+                and node.func.attrname in self.REQUIRED_PARAMS
+        ):
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [
-                param for param in self.REQUIRED_PARAMS[extracted_method] if param not in provided_keywords
+                param for param in self.REQUIRED_PARAMS[node.func.attrname] if param not in provided_keywords
             ]
             if missing_params:
                 self.add_message(
                     "numpy-parameter",
                     node=node,
                     confidence=HIGH,
-                    args=(", ".join(missing_params), extracted_method),
+                    args=(", ".join(missing_params), node.func.attrname),
                 )
