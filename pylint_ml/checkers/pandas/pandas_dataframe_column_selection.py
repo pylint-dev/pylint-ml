@@ -33,9 +33,9 @@ class PandasColumnSelectionChecker(LibraryBaseChecker):
             return
 
         if (
-                infer_specific_module_from_attribute(node=node, module_name=PANDAS)
-                and isinstance(node.expr, nodes.Name)
-                and node.expr.name.startswith("df_")
+            infer_specific_module_from_attribute(node=node, module_name=PANDAS)
+            and isinstance(node.expr, nodes.Name)
+            and node.expr.name.startswith("df_")
         ):
             # Issue a warning for property-like access
             self.add_message("pandas-column-selection", node=node, confidence=HIGH)
