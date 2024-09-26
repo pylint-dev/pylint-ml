@@ -31,9 +31,8 @@ class PandasIterrowsChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        if (
-                isinstance(node.func, nodes.Attribute)
-                and infer_specific_module_from_attribute(node=node.func, module_name=PANDAS)
+        if isinstance(node.func, nodes.Attribute) and infer_specific_module_from_attribute(
+            node=node.func, module_name=PANDAS
         ):
             method_name = getattr(node.func, "attrname", None)
             if method_name == "iterrows":
