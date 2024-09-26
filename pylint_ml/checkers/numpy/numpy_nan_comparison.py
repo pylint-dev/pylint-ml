@@ -31,7 +31,7 @@ class NumpyNaNComparisonChecker(LibraryBaseChecker):
     @classmethod
     def __is_np_nan_call(cls, node: nodes.Attribute) -> bool:
         """Check if the node represents a call to np.nan."""
-        return node.attrname in NUMPY_NAN and (infer_specific_module_from_attribute(node=node, module_name="numpy"))
+        return node.attrname in NUMPY_NAN and (infer_specific_module_from_attribute(node=node, module_name=NUMPY))
 
     @only_required_for_messages("numpy-nan-compare")
     def visit_compare(self, node: nodes.Compare) -> None:
