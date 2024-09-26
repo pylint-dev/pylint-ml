@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
@@ -30,7 +30,12 @@ class PandasEmptyColumnChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        if isinstance(node.value, nodes.Name) and node.value.name.startswith("df_"):
+        if (
+                isinstance(node.value, nodes.Name)
+                and node.value.name.startswith("df_")
+                and PANDAS in safe_infer(node.value).qname()
+        ):
+            print(node.value.name)
             if isinstance(node.slice, nodes.Const) and isinstance(node.parent, nodes.Assign):
                 if isinstance(node.parent.value, nodes.Const):
                     # Checking for filler values: 0 or empty string
