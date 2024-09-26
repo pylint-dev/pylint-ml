@@ -31,9 +31,9 @@ class PandasEmptyColumnChecker(LibraryBaseChecker):
             return
 
         if (
-                isinstance(node.value, nodes.Name)
-                and node.value.name.startswith("df_")
-                and PANDAS in safe_infer(node.value).qname()
+            isinstance(node.value, nodes.Name)
+            and node.value.name.startswith("df_")
+            and PANDAS in safe_infer(node.value).qname()
         ):
             print(node.value.name)
             if isinstance(node.slice, nodes.Const) and isinstance(node.parent, nodes.Assign):
