@@ -13,6 +13,7 @@ from pylint.interfaces import HIGH
 # Todo add version deprecated
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class PandasSeriesBoolChecker(LibraryBaseChecker):
@@ -30,7 +31,7 @@ class PandasSeriesBoolChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        if isinstance(node.func, nodes.Attribute):
+        if isinstance(node.func, nodes.Attribute) and infer_specific_module_from_call(node=node, module_name=PANDAS):
             method_name = getattr(node.func, "attrname", None)
 
             if method_name == "bool":

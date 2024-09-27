@@ -52,19 +52,22 @@ def infer_module_from_node_chain(start_node: nodes.NodeNG, module_name: str) -> 
 
     # Traverse backward through the chain, handling Attribute and Name node types
     while isinstance(current_node, (nodes.Attribute, nodes.Name)):
+        print(current_node)
+
         if isinstance(current_node, nodes.Attribute):
             # Infer the current expression (e.g., np.some)
             inferred_object = safe_infer(current_node.expr)
             if inferred_object is None:
-                return False
-            current_node = current_node.expr  # Step backwards
+                current_node = current_node.expr
+            else:
+                current_node = current_node.expr  # Step backwards
         elif isinstance(current_node, nodes.Name):
             # Base case: a Name node is likely a module or variable (e.g., 'np')
             inferred_root = safe_infer(current_node)
-            print(inferred_root)
             if inferred_root:
                 # Check if the inferred object's name matches the module_name
                 # TODO update solution to handle MODULE and INSTANCE
+
                 if module_name in inferred_root.qname() or inferred_root.qname() == module_name:
                     return True
                 else:

@@ -78,20 +78,9 @@ class NumPyParameterChecker(LibraryBaseChecker):
             return
 
         method_name = getattr(node.func, "attrname", None)
-        if (
-<<<<<<< HEAD
-                infer_specific_module_from_call(node=node, module_name=NUMPY)
-                and method_name in self.REQUIRED_PARAMS
-=======
-            infer_specific_module_from_call(node=node, module_name=NUMPY)
-            and isinstance(node.func, nodes.Attribute)
-            and node.func.attrname in self.REQUIRED_PARAMS
->>>>>>> 6b9ee0fb66110701f298b8fa6465189e15f1b335
-        ):
+        if infer_specific_module_from_call(node=node, module_name=NUMPY) and method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            missing_params = [
-                param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords
-            ]
+            missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:
                 self.add_message(
                     "numpy-parameter",

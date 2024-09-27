@@ -13,10 +13,10 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_sequential_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            model = tf.keras.models.Sequential()  #@
+            import tensorflow as tf #@
+            model = tf.keras.models.Sequential() #@
             """
         )
 
@@ -31,34 +31,33 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(sequential_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_sequential_with_layers(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            model = tf.keras.Sequential(layers=[
-                tf.keras.layers.Dense(units=64, activation='relu'),
-                tf.keras.layers.Dense(units=10)
-            ])
+            import tensorflow as tf #@
+            model = tf.keras.Sequential(layers=[tf.keras.layers.Dense(units=64, activation='relu'),tf.keras.layers.Dense(units=10)]) #@
             """
         )
 
         sequential_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(sequential_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_compile_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
+            import tensorflow as tf #@
             model = tf.keras.models.Sequential()
-            model.compile()  #@
+            model.compile() #@
             """
         )
 
@@ -71,33 +70,35 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(node)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_compile_with_all_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
+            import tensorflow as tf #@
             model = tf.keras.models.Sequential()
-            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])  #@
+            model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy']) #@
             """
         )
 
         compile_call = node
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(compile_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_fit_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
+            import tensorflow as tf #@
             model = tf.keras.models.Sequential()
             model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
-            model.fit(epochs=10)  #@
+            model.fit(epochs=10) #@
             """
         )
 
@@ -112,32 +113,34 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(fit_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_fit_with_all_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
+            import tensorflow as tf #@
             model = tf.keras.models.Sequential()
             model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
-            model.fit(x=train_data, y=train_labels, epochs=10)  #@
+            model.fit(x=train_data, y=train_labels, epochs=10) #@
             """
         )
 
         fit_call = node
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(fit_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_conv2d_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            layer = tf.keras.layers.Conv2D(kernel_size=(3, 3))  #@
+            import tensorflow as tf #@
+            layer = tf.keras.layers.Conv2D(kernel_size=(3, 3)) #@
             """
         )
 
@@ -152,30 +155,32 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(conv2d_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_conv2d_with_all_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            layer = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3))  #@
+            import tensorflow as tf #@
+            layer = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3)) #@
             """
         )
 
         conv2d_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(conv2d_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_dense_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            layer = tf.keras.layers.Dense()  #@
+            import tensorflow as tf #@
+            layer = tf.keras.layers.Dense() #@
             """
         )
 
@@ -190,19 +195,21 @@ class TestTensorParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(dense_call)
 
     @patch("pylint_ml.checkers.library_base_checker.version")
     def test_dense_with_all_params(self, mock_version):
         mock_version.return_value = "1.5.2"
-        node = astroid.extract_node(
+        import_node, node = astroid.extract_node(
             """
-            import tensorflow as tf
-            layer = tf.keras.layers.Dense(units=64)  #@
+            import tensorflow as tf #@
+            layer = tf.keras.layers.Dense(units=64) #@
             """
         )
 
         dense_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(dense_call)

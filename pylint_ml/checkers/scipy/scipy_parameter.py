@@ -5,12 +5,11 @@
 """Check for proper usage of Scipy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages, safe_infer
+from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import SCIPY
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
-from pylint_ml.checkers.utils import get_full_method_name
 
 
 class ScipyParameterChecker(LibraryBaseChecker):
@@ -36,11 +35,10 @@ class ScipyParameterChecker(LibraryBaseChecker):
         # scipy.stats
         "ttest_ind": ["a", "b"],
         "ttest_rel": ["a", "b"],
-        "norm.pdf": ["x"],
+        "pdf": ["x"],
         # scipy.spatial
-        "distance.euclidean": ["u", "v"],  # Full chain
-        "euclidean": ["u", "v"],  # Direct import of euclidean
-        "KDTree.query": ["x"],
+        "euclidean": ["u", "v"],
+        "query": ["x"],
     }
 
     @only_required_for_messages("scipy-parameter")
@@ -48,22 +46,37 @@ class ScipyParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=SCIPY, required_version=None):
             return
 
-        method_name = get_full_method_name(node=node)
+        # Determine whether the function is a simple Name (method call)
+        if isinstance(node.func, nodes.Name):
+            method_name = node.func.name  # For cases like minimize()
+        else:
+            return  # Exit early
 
-        infer_node = safe_infer(node=node)
-        print("------")
-        print(infer_node)
-        infer_object = safe_infer(node.func.expr)
-        print(node.func.expr)
-        print(infer_object)
+        # Perform a lookup in the current scope for the function/method name
+        scope = node.scope()
+        name_lookup = scope.lookup(method_name)
 
-        if method_name in self.REQUIRED_PARAMS:
-            provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
-            if missing_params:
-                self.add_message(
-                    "scipy-parameter",
-                    node=node,
-                    confidence=HIGH,
-                    args=(", ".join(missing_params), method_name),
-                )
+        if name_lookup:
+            _, assignments = name_lookup
+            if assignments:
+                assignment = assignments[0]
+                if isinstance(assignment, nodes.ImportFrom):
+                    # Check if the import is from scipy.optimize
+                    # Correctly unpack the names from the tuple
+                    imported_names = [name for name, _ in assignment.names]
+
+                    if SCIPY in assignment.modname and method_name in imported_names:
+                        # Proceed with checking parameters
+                        if method_name in self.REQUIRED_PARAMS:
+                            provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
+                            missing_params = [
+                                param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords
+                            ]
+
+                            if missing_params:
+                                self.add_message(
+                                    "scipy-parameter",
+                                    node=node,
+                                    confidence=HIGH,
+                                    args=(", ".join(missing_params), method_name),
+                                )

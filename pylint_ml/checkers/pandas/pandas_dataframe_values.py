@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
@@ -31,5 +31,9 @@ class PandasValuesChecker(LibraryBaseChecker):
             return
 
         if isinstance(node.expr, nodes.Name):
-            if node.attrname == "values" and node.expr.name.startswith("df_"):
+            if (
+                node.attrname == "values"
+                and node.expr.name.startswith("df_")
+                and PANDAS in safe_infer(node.expr).qname()
+            ):
                 self.add_message("pandas-dataframe-values", node=node, confidence=HIGH)

@@ -12,6 +12,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_attribute
 
 
 class PandasInplaceChecker(LibraryBaseChecker):
@@ -45,7 +46,9 @@ class PandasInplaceChecker(LibraryBaseChecker):
             return
 
         # Check if the call is to a method that supports 'inplace'
-        if isinstance(node.func, nodes.Attribute):
+        if isinstance(node.func, nodes.Attribute) and infer_specific_module_from_attribute(
+            node=node.func, module_name=PANDAS
+        ):
             method_name = node.func.attrname
             if method_name in self._inplace_methods:
                 for keyword in node.keywords:

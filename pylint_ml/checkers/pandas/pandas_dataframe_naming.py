@@ -12,6 +12,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class PandasDataFrameNamingChecker(LibraryBaseChecker):
@@ -33,7 +34,11 @@ class PandasDataFrameNamingChecker(LibraryBaseChecker):
             func_name = getattr(node.value.func, "attrname", None)
             module_name = getattr(node.value.func.expr, "name", None)
 
-            if func_name == "DataFrame" and module_name == "pd":
+            if (
+                func_name == "DataFrame"
+                and module_name == "pd"
+                and infer_specific_module_from_call(node=node.value, module_name=PANDAS)
+            ):
                 for target in node.targets:
                     if isinstance(target, nodes.AssignName):
                         var_name = target.name

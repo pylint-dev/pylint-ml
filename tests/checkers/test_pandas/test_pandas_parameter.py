@@ -190,6 +190,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
+            df_1 = pd.DataFrame({'A': [1, 2]})
             df_3 = df_1.merge(right=df_2, how='inner', on='col1') #@
             """
         )
@@ -214,6 +215,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
+            df_1 = pd.DataFrame({'A': [1, 2]})
             merged_df = df_1.merge(right=df_2) #@
             """
         )
@@ -235,6 +237,7 @@ class TestPandasParameterChecker(pylint.testutils.CheckerTestCase):
         import_node, node = astroid.extract_node(
             """
             import pandas as pd #@
+            df_1 = pd.DataFrame({'A': [1, 2]})
             df_merged = df_1.merge(right=df_2, how='inner', on='col1', validate='1:1') #@
             """
         )

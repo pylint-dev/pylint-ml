@@ -11,6 +11,6 @@ SCIPY = "scipy"
 
 SKLEARN = "sklearn"
 
-PYTORCH = "torch"
+TORCH = "torch"
 
 MATPLOTLIB = "matplotlib"

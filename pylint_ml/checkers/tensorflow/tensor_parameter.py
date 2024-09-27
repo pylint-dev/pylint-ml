@@ -10,7 +10,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import TENSORFLOW
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
-from pylint_ml.checkers.utils import get_full_method_name
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class TensorFlowParameterChecker(LibraryBaseChecker):
@@ -41,8 +41,12 @@ class TensorFlowParameterChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=TENSORFLOW, required_version=None):
             return
 
-        method_name = get_full_method_name(node)
-        if method_name in self.REQUIRED_PARAMS:
+        # TODO UPDATE SOLUTION
+
+        # method_name = get_full_method_name(node)
+        # if method_name in self.REQUIRED_PARAMS:
+        method_name = getattr(node.func, "attrname", None)
+        if infer_specific_module_from_call(node=node, module_name=TENSORFLOW) and method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:

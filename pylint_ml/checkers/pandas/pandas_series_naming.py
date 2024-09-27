@@ -12,6 +12,7 @@ from pylint.interfaces import HIGH
 
 from pylint_ml.checkers.config import PANDAS
 from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
 
 class PandasSeriesNamingChecker(LibraryBaseChecker):
@@ -29,7 +30,7 @@ class PandasSeriesNamingChecker(LibraryBaseChecker):
         if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
             return
 
-        if isinstance(node.value, nodes.Call):
+        if isinstance(node.value, nodes.Call) and infer_specific_module_from_call(node=node.value, module_name=PANDAS):
             func_name = getattr(node.value.func, "attrname", None)
             module_name = getattr(node.value.func.expr, "name", None)
 
