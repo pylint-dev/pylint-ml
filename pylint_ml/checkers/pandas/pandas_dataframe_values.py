@@ -7,12 +7,14 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
-from pylint.checkers.utils import only_required_for_messages
+from pylint.checkers.utils import only_required_for_messages, safe_infer
 from pylint.interfaces import HIGH
 
+from pylint_ml.checkers.config import PANDAS
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
 
-class PandasValuesChecker(BaseChecker):
+
+class PandasValuesChecker(LibraryBaseChecker):
     name = "pandas-dataframe-values"
     msgs = {
         "W8112": (
@@ -25,6 +27,13 @@ class PandasValuesChecker(BaseChecker):
 
     @only_required_for_messages("pandas-dataframe-values")
     def visit_attribute(self, node: nodes.Attribute) -> None:
+        if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
+            return
+
         if isinstance(node.expr, nodes.Name):
-            if node.attrname == "values" and node.expr.name.startswith("df_"):
+            if (
+                node.attrname == "values"
+                and node.expr.name.startswith("df_")
+                and PANDAS in safe_infer(node.expr).qname()
+            ):
                 self.add_message("pandas-dataframe-values", node=node, confidence=HIGH)

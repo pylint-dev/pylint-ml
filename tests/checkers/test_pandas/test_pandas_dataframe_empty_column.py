@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,22 +10,26 @@ from pylint_ml.checkers.pandas.pandas_dataframe_empty_column import PandasEmptyC
 class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasEmptyColumnChecker
 
-    def test_correct_empty_column_initialization(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_correct_empty_column_initialization(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import numpy as np
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame()
             df_sales['new_col_str'] = pd.Series(dtype='object')  #@
             """
         )
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_subscript(node)
 
-    def test_incorrect_empty_column_initialization_with_zero(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_incorrect_empty_column_initialization_with_zero(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame()
             df_sales['new_col_int'] = 0  #@
             """
@@ -39,12 +45,15 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_subscript(subscript_node)
 
-    def test_incorrect_empty_column_initialization_with_empty_string(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_incorrect_empty_column_initialization_with_empty_string(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame()
             df_sales['new_col_str'] = '' #@
             """
@@ -60,4 +69,5 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_subscript(subscript_node)

@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,10 +10,12 @@ from pylint_ml.checkers.pandas.pandas_dataframe_iterrows import PandasIterrowsCh
 class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasIterrowsChecker
 
-    def test_iterrows_used(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_iterrows_used(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_sales = pd.DataFrame({
                 "Product": ["A", "B", "C"],
                 "Sales": [100, 200, 300]
@@ -32,4 +36,5 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(iterrows_call)

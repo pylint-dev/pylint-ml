@@ -5,12 +5,15 @@
 """Check for proper usage of numpy functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.checkers.config import NUMPY
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
-class NumPyParameterChecker(BaseChecker):
+
+class NumPyParameterChecker(LibraryBaseChecker):
     name = "numpy-parameter"
     msgs = {
         "W8111": (
@@ -33,12 +36,12 @@ class NumPyParameterChecker(BaseChecker):
         "eye": ["N"],
         "identity": ["n"],
         # Random Sampling
-        "random.rand": ["d0"],
-        "random.randn": ["d0"],
-        "random.randint": ["low", "high"],
-        "random.choice": ["a"],
-        "random.uniform": ["low", "high"],
-        "random.normal": ["loc", "scale"],
+        "rand": ["d0"],
+        "randn": ["d0"],
+        "randint": ["low", "high"],
+        "choice": ["a"],
+        "uniform": ["low", "high"],
+        "normal": ["loc", "scale"],
         # Mathematical Functions
         "sum": ["a"],
         "mean": ["a"],
@@ -59,9 +62,9 @@ class NumPyParameterChecker(BaseChecker):
         # Linear Algebra
         "dot": ["a", "b"],
         "matmul": ["a", "b"],
-        "linalg.inv": ["a"],
-        "linalg.eig": ["a"],
-        "linalg.solve": ["a", "b"],
+        "inv": ["a"],
+        "eig": ["a"],
+        "solve": ["a", "b"],
         # Statistical Functions
         "percentile": ["a", "q"],
         "quantile": ["a", "q"],
@@ -71,11 +74,12 @@ class NumPyParameterChecker(BaseChecker):
 
     @only_required_for_messages("numpy-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        method_name = self._get_full_method_name(node)
+        if not self.is_library_imported_and_version_valid(lib_name=NUMPY, required_version=None):
+            return
 
-        if method_name in self.REQUIRED_PARAMS:
+        method_name = getattr(node.func, "attrname", None)
+        if infer_specific_module_from_call(node=node, module_name=NUMPY) and method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            # Collect all missing parameters
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:
                 self.add_message(
@@ -84,21 +88,3 @@ class NumPyParameterChecker(BaseChecker):
                     confidence=HIGH,
                     args=(", ".join(missing_params), method_name),
                 )
-
-    @staticmethod
-    def _get_full_method_name(node: nodes.Call) -> str:
-        """
-        Extracts the full method name, including chained attributes (e.g., np.random.rand).
-        """
-        func = node.func
-        method_chain = []
-
-        # Traverse the attribute chain
-        while isinstance(func, nodes.Attribute):
-            method_chain.insert(0, func.attrname)
-            func = func.expr
-
-        # Check if the root of the chain is "np" (as NumPy functions are expected to use np. prefix)
-        if isinstance(func, nodes.Name) and func.name == "np":
-            return ".".join(method_chain)
-        return ""

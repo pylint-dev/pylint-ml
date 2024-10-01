@@ -7,12 +7,15 @@
 from __future__ import annotations
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.checkers.config import PANDAS
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
-class PandasSeriesNamingChecker(BaseChecker):
+
+class PandasSeriesNamingChecker(LibraryBaseChecker):
     name = "pandas-series-naming"
     msgs = {
         "W8103": (
@@ -24,7 +27,10 @@ class PandasSeriesNamingChecker(BaseChecker):
 
     @only_required_for_messages("pandas-series-naming")
     def visit_assign(self, node: nodes.Assign) -> None:
-        if isinstance(node.value, nodes.Call):
+        if not self.is_library_imported_and_version_valid(lib_name=PANDAS, required_version=None):
+            return
+
+        if isinstance(node.value, nodes.Call) and infer_specific_module_from_call(node=node.value, module_name=PANDAS):
             func_name = getattr(node.value.func, "attrname", None)
             module_name = getattr(node.value.func.expr, "name", None)
 
