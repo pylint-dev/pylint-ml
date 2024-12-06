@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,11 +10,13 @@ from pylint_ml.checkers.scipy.scipy_parameter import ScipyParameterChecker
 class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = ScipyParameterChecker
 
-    def test_minimize_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_minimize_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.optimize import minimize
-            result = minimize(x0=[1, 2, 3])  #@
+            from scipy.optimize import minimize #@
+            result = minimize(x0=[1, 2, 3]) #@
             """
         )
         minimize_call = node.value
@@ -26,12 +30,15 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(minimize_call)
 
-    def test_curve_fit_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_curve_fit_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.optimize import curve_fit
+            from scipy.optimize import curve_fit #@
             params = curve_fit(xdata=[1, 2, 3], ydata=[4, 5, 6])  #@
             """
         )
@@ -46,12 +53,15 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(curve_fit_call)
 
-    def test_quad_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_quad_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.integrate import quad
+            from scipy.integrate import quad #@
             result = quad(a=0, b=1)  #@
             """
         )
@@ -66,12 +76,15 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(quad_call)
 
-    def test_solve_ivp_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_solve_ivp_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.integrate import solve_ivp
+            from scipy.integrate import solve_ivp #@
             result = solve_ivp(fun=None, t_span=[0, 1])  #@
             """
         )
@@ -86,12 +99,15 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(solve_ivp_call)
 
-    def test_ttest_ind_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_ttest_ind_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.stats import ttest_ind
+            from scipy.stats import ttest_ind #@
             result = ttest_ind(a=[1, 2])  #@
             """
         )
@@ -106,12 +122,15 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(ttest_ind_call)
 
-    def test_euclidean_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_euclidean_params(self, mock_version):
+        mock_version.return_value = "1.7.0"
+        importfrom_node, node = astroid.extract_node(
             """
-            from scipy.spatial.distance import euclidean
+            from scipy.spatial.distance import euclidean #@
             dist = euclidean(u=[1, 2, 3])  #@
             """
         )
@@ -126,4 +145,5 @@ class TestScipyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_importfrom(importfrom_node)
             self.checker.visit_call(euclidean_call)

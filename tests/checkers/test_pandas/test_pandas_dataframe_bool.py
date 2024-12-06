@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,10 +10,12 @@ from pylint_ml.checkers.pandas.pandas_dataframe_bool import PandasDataFrameBoolC
 class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasDataFrameBoolChecker
 
-    def test_dataframe_bool_usage(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_dataframe_bool_usage(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, call_node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_customers = pd.DataFrame(data)
             df_customers.bool() #@
             """
@@ -20,19 +24,23 @@ class TestDataFrameBoolChecker(pylint.testutils.CheckerTestCase):
             pylint.testutils.MessageTest(
                 msg_id="pandas-dataframe-bool",
                 confidence=HIGH,
-                node=node,
+                node=call_node,
             ),
             ignore_position=True,
         ):
-            self.checker.visit_call(node)
+            self.checker.visit_import(import_node)
+            self.checker.visit_call(call_node)
 
-    def test_no_bool_usage(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_no_bool_usage(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_customers = pd.DataFrame(data)
             df_customers.sum()  #@
             """
         )
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(node)

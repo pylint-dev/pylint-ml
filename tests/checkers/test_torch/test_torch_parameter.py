@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,10 +10,12 @@ from pylint_ml.checkers.torch.torch_parameter import PyTorchParameterChecker
 class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PyTorchParameterChecker
 
-    def test_sgd_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_sgd_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.optim as optim
+            import torch.optim as optim #@
             optimizer = optim.SGD(model.parameters(), momentum=0.9)  #@
             """
         )
@@ -27,12 +31,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(sgd_call)
 
-    def test_sgd_with_all_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_sgd_with_all_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.optim as optim
+            import torch.optim as optim #@
             optimizer = optim.SGD(lr=0.01)  #@
             """
         )
@@ -40,12 +47,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         sgd_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(sgd_call)
 
-    def test_adam_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_adam_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.optim as optim
+            import torch.optim as optim #@
             optimizer = optim.Adam(model.parameters())  #@
             """
         )
@@ -61,12 +71,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(adam_call)
 
-    def test_adam_with_all_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_adam_with_all_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.optim as optim
+            import torch.optim as optim #@
             optimizer = optim.Adam(lr=0.001)  #@
             """
         )
@@ -74,12 +87,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         adam_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(adam_call)
 
-    def test_conv2d_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_conv2d_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.Conv2d(in_channels=3, kernel_size=3)  #@
             """
         )
@@ -95,12 +111,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(conv2d_call)
 
-    def test_conv2d_with_all_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_conv2d_with_all_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3)  #@
             """
         )
@@ -108,12 +127,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         conv2d_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(conv2d_call)
 
-    def test_linear_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_linear_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.Linear(in_features=128)  #@
             """
         )
@@ -129,12 +151,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(linear_call)
 
-    def test_linear_with_all_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_linear_with_all_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.Linear(in_features=128, out_features=64)  #@
             """
         )
@@ -144,10 +169,12 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         with self.assertNoMessages():
             self.checker.visit_call(linear_call)
 
-    def test_lstm_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_lstm_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.LSTM(input_size=128)  #@
             """
         )
@@ -163,12 +190,15 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(lstm_call)
 
-    def test_lstm_with_all_params(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_lstm_with_all_params(self, mock_version):
+        mock_version.return_value = "2.4.1"
+        import_node, node = astroid.extract_node(
             """
-            import torch.nn as nn
+            import torch.nn as nn #@
             layer = nn.LSTM(input_size=128, hidden_size=64)  #@
             """
         )
@@ -176,4 +206,5 @@ class TestTorchParameterChecker(pylint.testutils.CheckerTestCase):
         lstm_call = node.value
 
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_call(lstm_call)

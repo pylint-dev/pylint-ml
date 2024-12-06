@@ -5,12 +5,15 @@
 """Check for proper usage of PyTorch functions with required parameters."""
 
 from astroid import nodes
-from pylint.checkers import BaseChecker
 from pylint.checkers.utils import only_required_for_messages
 from pylint.interfaces import HIGH
 
+from pylint_ml.checkers.config import TORCH
+from pylint_ml.checkers.library_base_checker import LibraryBaseChecker
+from pylint_ml.checkers.utils import infer_specific_module_from_call
 
-class PyTorchParameterChecker(BaseChecker):
+
+class PyTorchParameterChecker(LibraryBaseChecker):
     name = "pytorch-parameter"
     msgs = {
         "W8111": (
@@ -34,10 +37,14 @@ class PyTorchParameterChecker(BaseChecker):
 
     @only_required_for_messages("pytorch-parameter")
     def visit_call(self, node: nodes.Call) -> None:
-        method_name = self._get_method_name(node)
-        if method_name in self.REQUIRED_PARAMS:
+        if not self.is_library_imported_and_version_valid(lib_name=TORCH, required_version=None):
+            return
+
+        # TODO UPDATE SOLUTION
+
+        method_name = getattr(node.func, "attrname", None)
+        if infer_specific_module_from_call(node=node, module_name=TORCH) and method_name in self.REQUIRED_PARAMS:
             provided_keywords = {kw.arg for kw in node.keywords if kw.arg is not None}
-            # Collect all missing parameters
             missing_params = [param for param in self.REQUIRED_PARAMS[method_name] if param not in provided_keywords]
             if missing_params:
                 self.add_message(
@@ -46,15 +53,3 @@ class PyTorchParameterChecker(BaseChecker):
                     confidence=HIGH,
                     args=(", ".join(missing_params), method_name),
                 )
-
-    @staticmethod
-    def _get_method_name(node: nodes.Call) -> str:
-        """Extracts the method name from a Call node, including handling chained calls."""
-        func = node.func
-        while isinstance(func, nodes.Attribute):
-            func = func.expr
-        return (
-            node.func.attrname
-            if isinstance(node.func, nodes.Attribute)
-            else func.name if isinstance(func, nodes.Name) else ""
-        )
