@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,31 +10,36 @@ from pylint_ml.checkers.numpy.numpy_parameter import NumPyParameterChecker
 class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumPyParameterChecker
 
-    def test_array_missing_object(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_array_missing_object(self, mock_version):
+        mock_version.return_value = "2.1.1"
+        import_node, call_node = astroid.extract_node(
             """
-            import numpy as np
+            import numpy as np #@
             arr = np.array()  #@
             """
         )
 
-        array_call = node.value
+        call_node = call_node.value
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
                 msg_id="numpy-parameter",
                 confidence=HIGH,
-                node=array_call,
+                node=call_node,
                 args=("object", "array"),
             ),
             ignore_position=True,
         ):
-            self.checker.visit_call(array_call)
+            self.checker.visit_import(import_node)
+            self.checker.visit_call(call_node)
 
-    def test_zeros_without_shape(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_zeros_without_shape(self, mock_version):
+        mock_version.return_value = "2.1.1"
+        import_node, node = astroid.extract_node(
             """
-            import numpy as np
+            import numpy as np #@
             arr = np.zeros()  #@
             """
         )
@@ -48,13 +55,16 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(zeros_call)
 
-    def test_random_rand_without_shape(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_random_rand_without_shape(self, mock_version):
+        mock_version.return_value = "2.1.1"
+        import_node, node = astroid.extract_node(
             """
-            import numpy as np
-            arr = np.random.rand()  #@
+            import numpy as np #@
+            arr = np.random.rand() #@
             """
         )
 
@@ -65,17 +75,20 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
                 msg_id="numpy-parameter",
                 confidence=HIGH,
                 node=rand_call,
-                args=("d0", "random.rand"),
+                args=("d0", "rand"),
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(rand_call)
 
-    def test_dot_without_b(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_dot_without_b(self, mock_version):
+        mock_version.return_value = "2.1.1"
+        import_node, node = astroid.extract_node(
             """
-            import numpy as np
-            arr = np.dot(a=[1, 2, 3])  #@
+            import numpy as np #@
+            arr = np.dot(a=[1, 2, 3]) #@
             """
         )
 
@@ -90,13 +103,16 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(dot_call)
 
-    def test_percentile_without_q(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_percentile_without_q(self, mock_version):
+        mock_version.return_value = "2.1.1"
+        import_node, node = astroid.extract_node(
             """
-            import numpy as np
-            result = np.percentile(a=[1, 2, 3])  #@
+            import numpy as np #@
+            result = np.percentile(a=[1, 2, 3]) #@
             """
         )
 
@@ -111,4 +127,5 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_call(percentile_call)

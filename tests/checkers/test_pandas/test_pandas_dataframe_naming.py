@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import astroid
 import pylint.testutils
 from pylint.interfaces import HIGH
@@ -8,20 +10,25 @@ from pylint_ml.checkers.pandas.pandas_dataframe_naming import PandasDataFrameNam
 class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasDataFrameNamingChecker
 
-    def test_correct_dataframe_naming(self):
-        node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_correct_dataframe_naming(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_customers = pd.DataFrame(data) #@
             """
         )
         with self.assertNoMessages():
+            self.checker.visit_import(import_node)
             self.checker.visit_assign(node)
 
-    def test_incorrect_dataframe_naming(self):
-        pandas_dataframe_node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_incorrect_dataframe_naming(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, pandas_dataframe_node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             customers = pd.DataFrame(data) #@
             """
         )
@@ -33,12 +40,15 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_assign(pandas_dataframe_node)
 
-    def test_incorrect_dataframe_name_length(self):
-        pandas_dataframe_node = astroid.extract_node(
+    @patch("pylint_ml.checkers.library_base_checker.version")
+    def test_incorrect_dataframe_name_length(self, mock_version):
+        mock_version.return_value = "2.2.2"
+        import_node, pandas_dataframe_node = astroid.extract_node(
             """
-            import pandas as pd
+            import pandas as pd #@
             df_ = pd.DataFrame(data) #@
             """
         )
@@ -50,4 +60,5 @@ class TestPandasDataFrameNamingChecker(pylint.testutils.CheckerTestCase):
             ),
             ignore_position=True,
         ):
+            self.checker.visit_import(import_node)
             self.checker.visit_assign(pandas_dataframe_node)
