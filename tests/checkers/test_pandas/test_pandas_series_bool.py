@@ -9,13 +9,11 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasSeriesBoolChecker
 
     def test_series_bool_usage(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             ser_customer = pd.Series(data)
             ser_customer.bool()  #@
-            """
-        )
+            """)
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
                 msg_id="pandas-series-bool",
@@ -27,12 +25,10 @@ class TestSeriesBoolChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(node)
 
     def test_no_bool_usage(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             ser_customer = pd.Series(data)
             ser_customer.sum()  #@
-            """
-        )
+            """)
         with self.assertNoMessages():
             self.checker.visit_call(node)
