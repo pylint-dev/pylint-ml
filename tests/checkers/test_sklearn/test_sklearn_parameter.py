@@ -9,12 +9,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = SklearnParameterChecker
 
     def test_random_forest_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.ensemble import RandomForestClassifier
             clf = RandomForestClassifier()  #@
-            """
-        )
+            """)
 
         forest_call = node.value
 
@@ -30,12 +28,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(forest_call)
 
     def test_random_forest_with_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.ensemble import RandomForestClassifier
             clf = RandomForestClassifier(n_estimators=100)  #@
-            """
-        )
+            """)
 
         forest_call = node.value
 
@@ -43,12 +39,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(forest_call)
 
     def test_svc_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.svm import SVC
             clf = SVC()  #@
-            """
-        )
+            """)
 
         svc_call = node.value
 
@@ -64,12 +58,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(svc_call)
 
     def test_svc_with_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.svm import SVC
             clf = SVC(C=1.0, kernel='linear')  #@
-            """
-        )
+            """)
 
         svc_call = node.value
 
@@ -77,12 +69,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(svc_call)
 
     def test_kmeans_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.cluster import KMeans
             kmeans = KMeans()  #@
-            """
-        )
+            """)
 
         kmeans_call = node.value
 
@@ -98,12 +88,10 @@ class TestSklearnParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(kmeans_call)
 
     def test_kmeans_with_params(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             from sklearn.cluster import KMeans
             kmeans = KMeans(n_clusters=8)  #@
-            """
-        )
+            """)
 
         kmeans_call = node.value
 

@@ -9,21 +9,17 @@ class TestSklearnImport(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = SklearnImportChecker
 
     def test_correct_sklearn_import(self):
-        sklearn_import_node = astroid.extract_node(
-            """
+        sklearn_import_node = astroid.extract_node("""
         from sklearn import datasets    #@
-        """
-        )
+        """)
 
         with self.assertNoMessages():
             self.checker.visit_import(sklearn_import_node)
 
     def test_incorrect_sklearn_import(self):
-        sklearn_import_node = astroid.extract_node(
-            """
+        sklearn_import_node = astroid.extract_node("""
         import sklearn as skl   #@
-        """
-        )
+        """)
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
