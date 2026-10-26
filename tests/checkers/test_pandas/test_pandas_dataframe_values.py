@@ -9,16 +9,14 @@ class TestPandasValuesChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasValuesChecker
 
     def test_values_usage_with_correct_naming(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             df_sales = pd.DataFrame({
                 "A": [1, 2, 3],
                 "B": [4, 5, 6]
             })
             data = df_sales.values  #@
-            """
-        )
+            """)
 
         # Access the attribute that is 'values'
         attribute_node = node.value

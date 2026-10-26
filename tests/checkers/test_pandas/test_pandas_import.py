@@ -9,21 +9,17 @@ class TestPandasImport(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasImportChecker
 
     def test_correct_pandas_import(self):
-        pandas_import_node = astroid.extract_node(
-            """
+        pandas_import_node = astroid.extract_node("""
             import pandas as pd #@
-            """
-        )
+            """)
 
         with self.assertNoMessages():
             self.checker.visit_import(pandas_import_node)
 
     def test_incorrect_pandas_import(self):
-        pandas_import_node = astroid.extract_node(
-            """
+        pandas_import_node = astroid.extract_node("""
             import pandas as pds #@
-            """
-        )
+            """)
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(
@@ -36,11 +32,9 @@ class TestPandasImport(pylint.testutils.CheckerTestCase):
             self.checker.visit_import(pandas_import_node)
 
     def test_incorrect_pandas_import_from(self):
-        pandas_importfrom_node = astroid.extract_node(
-            """
+        pandas_importfrom_node = astroid.extract_node("""
             from pandas import math #@
-            """
-        )
+            """)
 
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(

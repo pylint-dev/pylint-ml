@@ -9,8 +9,7 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasIterrowsChecker
 
     def test_iterrows_used(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             df_sales = pd.DataFrame({
                 "Product": ["A", "B", "C"],
@@ -18,8 +17,7 @@ class TestPandasIterrowsChecker(pylint.testutils.CheckerTestCase):
             })
             for index, row in df_sales.iterrows():  #@
                 print(row["Product"], row["Sales"])
-            """
-        )
+            """)
 
         # Extract the Call node for the `iterrows` method
         iterrows_call = node.iter  # This directly points to the `Call` node for `iterrows()`
