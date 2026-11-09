@@ -9,12 +9,10 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = NumPyParameterChecker
 
     def test_array_missing_object(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             arr = np.array()  #@
-            """
-        )
+            """)
 
         array_call = node.value
 
@@ -30,12 +28,10 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(array_call)
 
     def test_zeros_without_shape(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             arr = np.zeros()  #@
-            """
-        )
+            """)
 
         zeros_call = node.value
 
@@ -51,12 +47,10 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(zeros_call)
 
     def test_random_rand_without_shape(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             arr = np.random.rand()  #@
-            """
-        )
+            """)
 
         rand_call = node.value
 
@@ -72,12 +66,10 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(rand_call)
 
     def test_dot_without_b(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             arr = np.dot(a=[1, 2, 3])  #@
-            """
-        )
+            """)
 
         dot_call = node.value
 
@@ -93,12 +85,10 @@ class TestNumPyParameterChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_call(dot_call)
 
     def test_percentile_without_q(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             result = np.percentile(a=[1, 2, 3])  #@
-            """
-        )
+            """)
 
         percentile_call = node.value
 
