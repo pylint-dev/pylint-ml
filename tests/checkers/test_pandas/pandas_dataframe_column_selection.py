@@ -9,13 +9,11 @@ class TestPandasColumnSelectionChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasColumnSelectionChecker
 
     def test_incorrect_column_selection(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             df_sales = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
             value = df_sales.A  #@
-            """
-        )
+            """)
 
         column_attribute = node.value
 

@@ -9,25 +9,21 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
     CHECKER_CLASS = PandasEmptyColumnChecker
 
     def test_correct_empty_column_initialization(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import numpy as np
             import pandas as pd
             df_sales = pd.DataFrame()
             df_sales['new_col_str'] = pd.Series(dtype='object')  #@
-            """
-        )
+            """)
         with self.assertNoMessages():
             self.checker.visit_subscript(node)
 
     def test_incorrect_empty_column_initialization_with_zero(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             df_sales = pd.DataFrame()
             df_sales['new_col_int'] = 0  #@
-            """
-        )
+            """)
 
         subscript_node = node.targets[0]
 
@@ -42,13 +38,11 @@ class TestPandasEmptyColumnChecker(pylint.testutils.CheckerTestCase):
             self.checker.visit_subscript(subscript_node)
 
     def test_incorrect_empty_column_initialization_with_empty_string(self):
-        node = astroid.extract_node(
-            """
+        node = astroid.extract_node("""
             import pandas as pd
             df_sales = pd.DataFrame()
             df_sales['new_col_str'] = '' #@
-            """
-        )
+            """)
 
         subscript_node = node.targets[0]
 
